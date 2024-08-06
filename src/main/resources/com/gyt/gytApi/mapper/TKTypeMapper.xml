@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyt.gytApi.mapper.TKTypeMapper">
+  <resultMap id="BaseResultMap" type="com.gyt.gytApi.domain.TKTypeDTO">
+    <id column="type_id" jdbcType="CHAR" property="typeId" />
+    <result column="uptFlag" jdbcType="VARCHAR" property="uptflag" />
+    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+    <result column="options_value" jdbcType="VARCHAR" property="optionsValue" />
+    <result column="options_text" jdbcType="VARCHAR" property="optionsText" />
+    <result column="tl_tyfs_xwbj" jdbcType="VARCHAR" property="tlTyfsXwbj" />
+    <result column="tl_tyfs_yd" jdbcType="VARCHAR" property="tlTyfsYd" />
+    <result column="tl_tyfs_qj" jdbcType="VARCHAR" property="tlTyfsQj" />
+    <result column="tl_tyfs_ys" jdbcType="VARCHAR" property="tlTyfsYs" />
+    <result column="tl_qztj" jdbcType="VARCHAR" property="tlQztj" />
+    <result column="tl_zdrq" jdbcType="VARCHAR" property="tlZdrq" />
+    <result column="tl_zttz" jdbcType="VARCHAR" property="tlZttz" />
+    <result column="lb_dwjhjsynl" jdbcType="VARCHAR" property="lbDwjhjsynl" />
+    <result column="lb_fbqx" jdbcType="VARCHAR" property="lbFbqx" />
+    <result column="lb_xltz" jdbcType="VARCHAR" property="lbXltz" />
+    <result column="lb_cjbx" jdbcType="VARCHAR" property="lbCjbx" />
+    <result column="lb_xttz" jdbcType="VARCHAR" property="lbXttz" />
+    <result column="lb_zttz" jdbcType="VARCHAR" property="lbZttz" />
+    <result column="type_number" jdbcType="VARCHAR" property="typeNumber" />
+    <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    type_id, uptFlag, del_flag, options_value, options_text, tl_tyfs_xwbj, tl_tyfs_yd, 
+    tl_tyfs_qj, tl_tyfs_ys, tl_qztj, tl_zdrq, tl_zttz, lb_dwjhjsynl, lb_fbqx, lb_xltz, 
+    lb_cjbx, lb_xttz, lb_zttz, type_number, type_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_knowledge_tcm_type
+    where type_id = #{typeId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_knowledge_tcm_type
+    where type_id = #{typeId,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" keyColumn="type_id" keyProperty="typeId" parameterType="com.gyt.gytApi.domain.TKTypeDTO" useGeneratedKeys="true">
+    insert into t_knowledge_tcm_type (uptFlag, del_flag, options_value, 
+      options_text, tl_tyfs_xwbj, tl_tyfs_yd, 
+      tl_tyfs_qj, tl_tyfs_ys, tl_qztj, 
+      tl_zdrq, tl_zttz, lb_dwjhjsynl, 
+      lb_fbqx, lb_xltz, lb_cjbx, 
+      lb_xttz, lb_zttz, type_number, 
+      type_name)
+    values (#{uptflag,jdbcType=VARCHAR}, #{delFlag,jdbcType=CHAR}, #{optionsValue,jdbcType=VARCHAR}, 
+      #{optionsText,jdbcType=VARCHAR}, #{tlTyfsXwbj,jdbcType=VARCHAR}, #{tlTyfsYd,jdbcType=VARCHAR}, 
+      #{tlTyfsQj,jdbcType=VARCHAR}, #{tlTyfsYs,jdbcType=VARCHAR}, #{tlQztj,jdbcType=VARCHAR}, 
+      #{tlZdrq,jdbcType=VARCHAR}, #{tlZttz,jdbcType=VARCHAR}, #{lbDwjhjsynl,jdbcType=VARCHAR}, 
+      #{lbFbqx,jdbcType=VARCHAR}, #{lbXltz,jdbcType=VARCHAR}, #{lbCjbx,jdbcType=VARCHAR}, 
+      #{lbXttz,jdbcType=VARCHAR}, #{lbZttz,jdbcType=VARCHAR}, #{typeNumber,jdbcType=VARCHAR}, 
+      #{typeName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="type_id" keyProperty="typeId" parameterType="com.gyt.gytApi.domain.TKTypeDTO" useGeneratedKeys="true">
+    insert into t_knowledge_tcm_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uptflag != null">
+        uptFlag,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="optionsValue != null">
+        options_value,
+      </if>
+      <if test="optionsText != null">
+        options_text,
+      </if>
+      <if test="tlTyfsXwbj != null">
+        tl_tyfs_xwbj,
+      </if>
+      <if test="tlTyfsYd != null">
+        tl_tyfs_yd,
+      </if>
+      <if test="tlTyfsQj != null">
+        tl_tyfs_qj,
+      </if>
+      <if test="tlTyfsYs != null">
+        tl_tyfs_ys,
+      </if>
+      <if test="tlQztj != null">
+        tl_qztj,
+      </if>
+      <if test="tlZdrq != null">
+        tl_zdrq,
+      </if>
+      <if test="tlZttz != null">
+        tl_zttz,
+      </if>
+      <if test="lbDwjhjsynl != null">
+        lb_dwjhjsynl,
+      </if>
+      <if test="lbFbqx != null">
+        lb_fbqx,
+      </if>
+      <if test="lbXltz != null">
+        lb_xltz,
+      </if>
+      <if test="lbCjbx != null">
+        lb_cjbx,
+      </if>
+      <if test="lbXttz != null">
+        lb_xttz,
+      </if>
+      <if test="lbZttz != null">
+        lb_zttz,
+      </if>
+      <if test="typeNumber != null">
+        type_number,
+      </if>
+      <if test="typeName != null">
+        type_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uptflag != null">
+        #{uptflag,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="optionsValue != null">
+        #{optionsValue,jdbcType=VARCHAR},
+      </if>
+      <if test="optionsText != null">
+        #{optionsText,jdbcType=VARCHAR},
+      </if>
+      <if test="tlTyfsXwbj != null">
+        #{tlTyfsXwbj,jdbcType=VARCHAR},
+      </if>
+      <if test="tlTyfsYd != null">
+        #{tlTyfsYd,jdbcType=VARCHAR},
+      </if>
+      <if test="tlTyfsQj != null">
+        #{tlTyfsQj,jdbcType=VARCHAR},
+      </if>
+      <if test="tlTyfsYs != null">
+        #{tlTyfsYs,jdbcType=VARCHAR},
+      </if>
+      <if test="tlQztj != null">
+        #{tlQztj,jdbcType=VARCHAR},
+      </if>
+      <if test="tlZdrq != null">
+        #{tlZdrq,jdbcType=VARCHAR},
+      </if>
+      <if test="tlZttz != null">
+        #{tlZttz,jdbcType=VARCHAR},
+      </if>
+      <if test="lbDwjhjsynl != null">
+        #{lbDwjhjsynl,jdbcType=VARCHAR},
+      </if>
+      <if test="lbFbqx != null">
+        #{lbFbqx,jdbcType=VARCHAR},
+      </if>
+      <if test="lbXltz != null">
+        #{lbXltz,jdbcType=VARCHAR},
+      </if>
+      <if test="lbCjbx != null">
+        #{lbCjbx,jdbcType=VARCHAR},
+      </if>
+      <if test="lbXttz != null">
+        #{lbXttz,jdbcType=VARCHAR},
+      </if>
+      <if test="lbZttz != null">
+        #{lbZttz,jdbcType=VARCHAR},
+      </if>
+      <if test="typeNumber != null">
+        #{typeNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null">
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gyt.gytApi.domain.TKTypeDTO">
+    update t_knowledge_tcm_type
+    <set>
+      <if test="uptflag != null">
+        uptFlag = #{uptflag,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="optionsValue != null">
+        options_value = #{optionsValue,jdbcType=VARCHAR},
+      </if>
+      <if test="optionsText != null">
+        options_text = #{optionsText,jdbcType=VARCHAR},
+      </if>
+      <if test="tlTyfsXwbj != null">
+        tl_tyfs_xwbj = #{tlTyfsXwbj,jdbcType=VARCHAR},
+      </if>
+      <if test="tlTyfsYd != null">
+        tl_tyfs_yd = #{tlTyfsYd,jdbcType=VARCHAR},
+      </if>
+      <if test="tlTyfsQj != null">
+        tl_tyfs_qj = #{tlTyfsQj,jdbcType=VARCHAR},
+      </if>
+      <if test="tlTyfsYs != null">
+        tl_tyfs_ys = #{tlTyfsYs,jdbcType=VARCHAR},
+      </if>
+      <if test="tlQztj != null">
+        tl_qztj = #{tlQztj,jdbcType=VARCHAR},
+      </if>
+      <if test="tlZdrq != null">
+        tl_zdrq = #{tlZdrq,jdbcType=VARCHAR},
+      </if>
+      <if test="tlZttz != null">
+        tl_zttz = #{tlZttz,jdbcType=VARCHAR},
+      </if>
+      <if test="lbDwjhjsynl != null">
+        lb_dwjhjsynl = #{lbDwjhjsynl,jdbcType=VARCHAR},
+      </if>
+      <if test="lbFbqx != null">
+        lb_fbqx = #{lbFbqx,jdbcType=VARCHAR},
+      </if>
+      <if test="lbXltz != null">
+        lb_xltz = #{lbXltz,jdbcType=VARCHAR},
+      </if>
+      <if test="lbCjbx != null">
+        lb_cjbx = #{lbCjbx,jdbcType=VARCHAR},
+      </if>
+      <if test="lbXttz != null">
+        lb_xttz = #{lbXttz,jdbcType=VARCHAR},
+      </if>
+      <if test="lbZttz != null">
+        lb_zttz = #{lbZttz,jdbcType=VARCHAR},
+      </if>
+      <if test="typeNumber != null">
+        type_number = #{typeNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null">
+        type_name = #{typeName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where type_id = #{typeId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gyt.gytApi.domain.TKTypeDTO">
+    update t_knowledge_tcm_type
+    set uptFlag = #{uptflag,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=CHAR},
+      options_value = #{optionsValue,jdbcType=VARCHAR},
+      options_text = #{optionsText,jdbcType=VARCHAR},
+      tl_tyfs_xwbj = #{tlTyfsXwbj,jdbcType=VARCHAR},
+      tl_tyfs_yd = #{tlTyfsYd,jdbcType=VARCHAR},
+      tl_tyfs_qj = #{tlTyfsQj,jdbcType=VARCHAR},
+      tl_tyfs_ys = #{tlTyfsYs,jdbcType=VARCHAR},
+      tl_qztj = #{tlQztj,jdbcType=VARCHAR},
+      tl_zdrq = #{tlZdrq,jdbcType=VARCHAR},
+      tl_zttz = #{tlZttz,jdbcType=VARCHAR},
+      lb_dwjhjsynl = #{lbDwjhjsynl,jdbcType=VARCHAR},
+      lb_fbqx = #{lbFbqx,jdbcType=VARCHAR},
+      lb_xltz = #{lbXltz,jdbcType=VARCHAR},
+      lb_cjbx = #{lbCjbx,jdbcType=VARCHAR},
+      lb_xttz = #{lbXttz,jdbcType=VARCHAR},
+      lb_zttz = #{lbZttz,jdbcType=VARCHAR},
+      type_number = #{typeNumber,jdbcType=VARCHAR},
+      type_name = #{typeName,jdbcType=VARCHAR}
+    where type_id = #{typeId,jdbcType=CHAR}
+  </update>
+</mapper>

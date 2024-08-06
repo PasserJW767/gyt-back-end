@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyt.gytApi.mapper.NatmehaDoctorDTOMapper">
+  <resultMap id="BaseResultMap" type="com.gyt.gytApi.domain.NatmehaDoctorDTO">
+    <id column="itemID" jdbcType="INTEGER" property="itemid" />
+    <id column="itemCode" jdbcType="CHAR" property="itemcode" />
+    <result column="DOCTOR_NAME" jdbcType="VARCHAR" property="doctorName" />
+    <result column="DOCTOR_TITLE" jdbcType="VARCHAR" property="doctorTitle" />
+    <result column="DOCTOR_TREATMENT" jdbcType="VARCHAR" property="doctorTreatment" />
+    <result column="DOCTOR_SORCE" jdbcType="DOUBLE" property="doctorSorce" />
+    <result column="DEPT_CODE" jdbcType="VARCHAR" property="deptCode" />
+    <result column="NUM_TYPE" jdbcType="VARCHAR" property="numType" />
+    <result column="USER_CODE" jdbcType="CHAR" property="userCode" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+    <result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+    <result column="itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+    <result column="ORG_CODE" jdbcType="CHAR" property="orgCode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    itemID, itemCode, DOCTOR_NAME, DOCTOR_TITLE, DOCTOR_TREATMENT, DOCTOR_SORCE, DEPT_CODE, 
+    NUM_TYPE, USER_CODE, CREATER, itemCreateAt, UPDATER, itemUpdateAt, ORG_CODE
+  </sql>
+
+</mapper>

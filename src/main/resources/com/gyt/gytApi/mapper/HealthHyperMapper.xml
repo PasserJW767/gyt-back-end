@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyt.gytApi.mapper.HealthHyperMapper">
+
+    <resultMap id="BaseHealthHyper" type="com.gyt.gytApi.domain.HealthHyperDTO">
+        <id property="itemId" column="itemID" jdbcType="INTEGER"/>
+        <id property="patientId" column="patient_id" jdbcType="VARCHAR"/>
+        <result property="respDoctorName" column="resp_doctor_name" jdbcType="VARCHAR"/>
+        <result property="visitWay" column="visit_way" jdbcType="VARCHAR"/>
+        <result property="thisFollowupVisitDate" column="this_followup_visit_date" jdbcType="TIMESTAMP"/>
+        <result property="psyAdjustResult" column="psy_adjust_result" jdbcType="VARCHAR"/>
+        <result property="complianceResult" column="compliance_result" jdbcType="VARCHAR"/>
+        <result property="visitEvalResult" column="visit_eval_result" jdbcType="VARCHAR"/>
+        <result property="nextFollowupDate" column="next_followup_date" jdbcType="TIMESTAMP"/>
+        <result property="followupVisitDoctorName" column="followup_visit_doctor_name" jdbcType="DATE"/>
+        <result property="symptomName" column="symptom_name" jdbcType="VARCHAR"/>
+        <result property="creater" column="creater" jdbcType="VARCHAR"/>
+        <result property="itemCreateAt" column="itemCreateAt" jdbcType="TIMESTAMP"/>
+        <result property="updater" column="updater" jdbcType="VARCHAR"/>
+        <result property="itemUpdateAt" column="itemUpdateAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        itemID,
+        patient_id,
+        resp_doctor_name,
+        visit_way,
+        this_followup_visit_date,
+        psy_adjust_result,
+        compliance_result,
+        visit_eval_result,
+        next_followup_date,
+        followup_visit_doctor_name,
+        symptom_name,
+        creater,
+        itemCreateAt,
+        updater,
+        itemUpdateAt
+    </sql>
+
+    <select id="selectHealthHyper" resultMap="BaseHealthHyper">
+        select <include refid="Base_Column_List"/>
+        from tb_natmeha_health_hyper
+        <where>
+            itemId=#{id}
+        </where>
+    </select>
+</mapper>

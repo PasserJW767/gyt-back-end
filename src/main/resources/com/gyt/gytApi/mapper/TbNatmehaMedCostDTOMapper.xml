@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyt.gytApi.mapper.TbNatmehaMedCostDTOMapper">
+  <resultMap id="BaseResultMap" type="com.gyt.gytApi.domain.NatmehaMedCostDTO">
+    <id column="itemID" jdbcType="INTEGER" property="itemid" />
+    <result column="OUTPAT_FORM_NO" jdbcType="VARCHAR" property="outpatFormNo" />
+    <result column="VISIT_ORG_NAME" jdbcType="VARCHAR" property="visitOrgName" />
+    <result column="VISIT_DEPT_NAME" jdbcType="VARCHAR" property="visitDeptName" />
+    <result column="VISIT_DTIME" jdbcType="DATE" property="visitDtime" />
+    <result column="SPECIFICATIONS" jdbcType="VARCHAR" property="specifications" />
+    <result column="PRICE" jdbcType="DOUBLE" property="price" />
+    <result column="NUM" jdbcType="VARCHAR" property="num" />
+    <result column="OUTPAT_Self_Payment" jdbcType="DOUBLE" property="outpatSelfPayment" />
+    <result column="INPAT_Self_Payment" jdbcType="DOUBLE" property="inpatSelfPayment" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+    <result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+    <result column="itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    itemID, OUTPAT_FORM_NO, VISIT_ORG_NAME, VISIT_DEPT_NAME, VISIT_DTIME, SPECIFICATIONS, 
+    PRICE, NUM, OUTPAT_Self_Payment, INPAT_Self_Payment, CREATER, itemCreateAt, UPDATER, 
+    itemUpdateAt
+  </sql>
+
+</mapper>

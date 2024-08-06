@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyt.gytApi.mapper.HealthBaseMapper">
+
+    <resultMap id="BaseHealthBase" type="com.gyt.gytApi.domain.HealthBaseDTO">
+        <id property="itemId" column="itemID" jdbcType="INTEGER"/>
+        <id property="patientId" column="patient_id" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="idType" column="id_type" jdbcType="VARCHAR"/>
+        <result property="idNo" column="id_no" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="VARCHAR"/>
+        <result property="birthDate" column="birth_date" jdbcType="DATE"/>
+        <result property="education" column="education" jdbcType="VARCHAR"/>
+        <result property="accoProperty" column="acco_property" jdbcType="VARCHAR"/>
+        <result property="marriage" column="marriage" jdbcType="VARCHAR"/>
+        <result property="mobilePhone" column="mobile_phone" jdbcType="VARCHAR"/>
+        <result property="nationality" column="nationality" jdbcType="VARCHAR"/>
+        <result property="birthPlace" column="birth_place" jdbcType="VARCHAR"/>
+        <result property="pastSicknessType" column="past_sickness_type" jdbcType="VARCHAR"/>
+        <result property="familyDisease" column="family_disease" jdbcType="VARCHAR"/>
+        <result property="patientRelation" column="patient_relation" jdbcType="VARCHAR"/>
+        <result property="creater" column="creater" jdbcType="VARCHAR"/>
+        <result property="itemCreateAt" column="itemCreateAt" jdbcType="TIMESTAMP"/>
+        <result property="updater" column="updater" jdbcType="VARCHAR"/>
+        <result property="itemUpdateAt" column="itemUpdateAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        itemID,
+        patient_id,
+        name,
+        id_type,
+        id_no,
+        sex,
+        birth_date,
+        education,
+        acco_property,
+        marriage,
+        mobile_phone,
+        nationality,
+        birth_place,
+        past_sickness_type,
+        family_disease,
+        patient_relation,
+        creater,
+        itemCreateAt,
+        updater,
+        itemUpdateAt
+    </sql>
+
+    <select id="selectHealthBase" resultMap="BaseHealthBase">
+        select <include refid="Base_Column_List"/>
+        from tb_natmeha_health_base
+        <where>
+            itemId=#{id}
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyt.gytApi.mapper.NatmehaSignalSourceMapper">
+
+    <resultMap id="BaseResultMap" type="com.gyt.gytApi.domain.NatmehaSignalSourceDTO">
+            <id property="itemid" column="itemID" jdbcType="INTEGER"/>
+            <id property="itemcode" column="itemCode" jdbcType="CHAR"/>
+            <result property="doctorCode" column="DOCTOR_CODE" jdbcType="CHAR"/>
+            <result property="registerType" column="REGISTER_TYPE" jdbcType="VARCHAR"/>
+            <result property="registerDate" column="REGISTER_DATE" jdbcType="TIMESTAMP"/>
+            <result property="registerCount" column="REGISTER_COUNT" jdbcType="INTEGER"/>
+            <result property="status" column="STATUS" jdbcType="VARCHAR"/>
+            <result property="userCode" column="USER_CODE" jdbcType="CHAR"/>
+            <result property="creater" column="CREATER" jdbcType="VARCHAR"/>
+            <result property="itemcreateat" column="itemCreateAt" jdbcType="TIMESTAMP"/>
+            <result property="updater" column="UPDATER" jdbcType="VARCHAR"/>
+            <result property="itemupdateat" column="itemUpdateAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+  <select id="selectDoctorSignalSource" resultMap="BaseResultMap">
+    SELECT s.*
+    FROM tb_natmeha_signal_source s LEFT JOIN tb_natmeha_doctor d	on s.DOCTOR_CODE = d.itemCode
+    WHERE s.DOCTOR_CODE=#{doctorCode}
+      AND s.REGISTER_DATE&gt;=#{startTime}
+      AND s.REGISTER_DATE&lt;=#{endTime}
+      AND s.STATUS = 1
+    ORDER BY s.REGISTER_DATE;
+  </select>
+
+  <!-- 根据所给的医生Doctor_Code和所给的时间,来查询这名医生当天号源 -->
+  <select id="selectDoctorNewlySignal" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM tb_natmeha_signal_source
+    WHERE DOCTOR_CODE=#{doctorCode}
+    AND STATUS=1
+    AND REGISTER_DATE&gt;=#{startTime}
+    AND REGISTER_DATE&lt;=#{endTime}
+    ORDER BY REGISTER_COUNT ASC
+    LIMIT 1
+  </select>
+
+  <!-- 根据号源表和register_ref表获取下一个号 -->
+  <select id="selectNextNo" resultType="int">
+    SELECT COUNT(*)
+    FROM tb_natmeha_signal_source s LEFT JOIN tb_natmeha_register_ref r ON s.itemCode=r.SOURCE_CODE
+    WHERE s.DOCTOR_CODE=#{doctorCode}
+      AND s.STATUS=1
+      AND REGISTER_DATE&gt;=#{startTime}
+      AND REGISTER_DATE&lt;=#{endTime}
+  </select>
+    <sql id="Base_Column_List">
+        itemID,itemCode,DOCTOR_CODE,
+        REGISTER_TYPE,REGISTER_DATE,REGISTER_COUNT,
+        STATUS,USER_CODE,CREATER,
+        itemCreateAt,UPDATER,itemUpdateAt
+    </sql>
+
+    <select id="todayNum" parameterType="int" resultType="int">
+        select count(*)
+        from tb_natmeha_signal_source
+        where itemID = ${id} and itemCreateAt BETWEEN DATE_FORMAT(NOW(),'%Y-%m-%d 00:00:00') AND DATE_FORMAT(NOW(),'%Y-%m-%d 23:59:59')
+    </select>
+
+    <!-- 获取这个医院当天值班的医生列表 -->
+    <select id="selectTodayInWorkDoctorList" resultMap="BaseResultMap">
+        SELECT s.*
+        FROM tb_natmeha_doctor d
+            LEFT JOIN tb_natmeha_hospital h ON d.ORG_CODE = h.itemCode
+                LEFT JOIN tb_natmeha_signal_source s ON d.itemCode = s.DOCTOR_CODE
+        WHERE h.itemCode = #{hospitalCode}
+            AND REGISTER_DATE&gt;=#{startTime}
+            AND REGISTER_DATE&lt;=#{endTime}
+            AND s.STATUS = 1
+    </select>
+</mapper>

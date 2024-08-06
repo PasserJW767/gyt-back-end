@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyt.gytApi.mapper.NatmehaProjectMapper">
+
+    <resultMap id="BaseResultMap" type="com.gyt.gytApi.domain.NatmehaProjectDTO">
+        <id property="itemid" column="itemID" jdbcType="INTEGER"/>
+        <id property="itemcode" column="itemCode" jdbcType="CHAR"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="content" column="CONTENT" jdbcType="VARCHAR"/>
+        <result property="dataType" column="DATA_TYPE" jdbcType="VARCHAR"/>
+        <result property="price" column="PRICE" jdbcType="INTEGER"/>
+        <result property="dataStatus" column="DATA_STATUS" jdbcType="VARCHAR"/>
+        <result property="userCode" column="USER_CODE" jdbcType="CHAR"/>
+        <result property="visitNum" column="VISIT_NUM" jdbcType="INTEGER"/>
+        <result property="creater" column="CREATER" jdbcType="VARCHAR"/>
+        <result property="itemcreateat" column="itemCreateAt" jdbcType="TIMESTAMP"/>
+        <result property="updater" column="UPDATER" jdbcType="VARCHAR"/>
+        <result property="itemupdateat" column="itemUpdateAt" jdbcType="TIMESTAMP"/>
+        <result property="projectSorce" column="PROJECT_SORCE" jdbcType="DOUBLE"/>
+    </resultMap>
+
+    <!--医院详情之开展项目/功效特色相关的结果集-->
+    <resultMap id="hosDetailLaunchProjectsResultMap" type="com.gyt.gytApi.domain.NatmehaProjectDTO" extends="BaseResultMap">
+        <association property="userDTO" javaType="com.gyt.gytApi.domain.UserDTO">
+            <id property="itemid" column="itemID" jdbcType="INTEGER"/>
+            <id property="itemcode" column="itemCode" jdbcType="CHAR"/>
+        </association>
+        <association property="natmehaHospitalDTO" javaType="com.gyt.gytApi.domain.NatmehaHospitalDTO">
+            <id property="itemid" column="itemID" jdbcType="INTEGER"/>
+            <id property="itemcode" column="itemCode" jdbcType="CHAR"/>
+            <result property="hospitalPro" column="HOSPITAL_PRO" jdbcType="VARCHAR"/>
+            <result property="hospitalCity" column="HOSPITAL_CITY" jdbcType="VARCHAR"/>
+            <result property="hospitalCountry" column="HOSPITAL_COUNTRY" jdbcType="VARCHAR"/>
+            <result property="hospitalAdress" column="HOSPITAL_ADRESS" jdbcType="VARCHAR"/>
+        </association>
+        <association property="natmehaFileDTO" javaType="com.gyt.gytApi.domain.NatmehaFileDTO">
+            <id property="itemid" column="itemID" jdbcType="INTEGER"/>
+            <id property="itemcode" column="itemCode" jdbcType="CHAR"/>
+            <result property="dataCode" column="DATA_CODE" jdbcType="CHAR"/>
+            <result property="filePath" column="FILE_PATH" jdbcType="VARCHAR"/>
+        </association>
+     </resultMap>
+
+    <sql id="Base_Column_List">
+        itemID,itemCode,NAME,
+        CONTENT,DATA_TYPE,PRICE,
+        DATA_STATUS,USER_CODE,VISIT_NUM,
+        CREATER,itemCreateAt,UPDATER,
+        itemUpdateAt,PROJECT_SORCE
+    </sql>
+
+    <!--/natmehaHospital/getHosDetailLaunchProjects查医院项目有关信息（project表连hospital表，再连file表拿图片）-->
+    <select id="getHosDetailLaunchProjects" parameterType="string" resultMap="hosDetailLaunchProjectsResultMap">
+        select distinct p.itemID,
+                p.USER_CODE,
+                p.NAME,
+                p.VISIT_NUM,
+                p.PRICE,
+                p.PROJECT_SORCE,
+                p.CONTENT,
+                p.PROJECT_SORCE,
+                h.itemCode,
+                h.HOSPITAL_PRO,
+                h.HOSPITAL_CITY,
+                h.HOSPITAL_COUNTRY,
+                h.HOSPITAL_ADRESS,
+                f.DATA_CODE,
+                f.FILE_PATH
+        from tb_natmeha_project p left join tb_natmeha_hospital h on p.USER_CODE=h.itemCode
+                                  left join tb_natmeha_file f on  h.itemCode=f.DATA_CODE
+        where p.USER_CODE=#{hosItemCode} and p.DATA_TYPE=0 and p.DATA_STATUS=1 and f.FILE_TYPE='项目和特色'
+    </select>
+
+    <!--/natmehaHospital/getHosDetailCharacteristic查医院功效特色有关信息（project表连hospital表，再连file表拿图片）-->
+    <select id="getHosDetailCharacteristic" parameterType="string" resultMap="hosDetailLaunchProjectsResultMap">
+        select distinct p.itemID,
+                p.USER_CODE,
+                p.NAME,
+                p.VISIT_NUM,
+                p.PRICE,
+                p.PROJECT_SORCE,
+                p.CONTENT,
+                p.PROJECT_SORCE,
+                h.itemCode,
+                h.HOSPITAL_PRO,
+                h.HOSPITAL_CITY,
+                h.HOSPITAL_COUNTRY,
+                h.HOSPITAL_ADRESS,
+                f.DATA_CODE,
+                f.FILE_PATH
+        from tb_natmeha_project p left join tb_natmeha_hospital h on p.USER_CODE=h.itemCode
+                                  left join tb_natmeha_file f on  h.itemCode=f.DATA_CODE
+        where p.USER_CODE=#{hosItemCode} and p.DATA_TYPE=1 and p.DATA_STATUS=1 and f.FILE_TYPE='项目和特色'
+    </select>
+</mapper>

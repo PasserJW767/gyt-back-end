@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyt.gytApi.mapper.HealthChildrenMapper">
+    
+    <resultMap id="BaseHealthChildren" type="com.gyt.gytApi.domain.HealthChildrenDTO">
+        <id property="itemId" column="itemID" jdbcType="INTEGER"/>
+        <id property="itemCode" column="itemCode" jdbcType="CHAR"/>
+        <result property="patientId" column="patient_id" jdbcType="VARCHAR"/>
+        <result property="newBornName" column="newBorn_name" jdbcType="VARCHAR"/>
+        <result property="newBornSex" column="newBorn_sex" jdbcType="VARCHAR"/>
+        <result property="newBornBirthDate" column="newBorn_birth_date" jdbcType="DATE"/>
+        <result property="examSummary" column="exam_summary" jdbcType="VARCHAR"/>
+        <result property="newBornIdType" column="newBorn_id_type" jdbcType="DATE"/>
+        <result property="newBornIdNo" column="newBorn_id_no" jdbcType="VARCHAR"/>
+        <result property="fatherName" column="father_name" jdbcType="VARCHAR"/>
+        <result property="motherName" column="mother_name" jdbcType="VARCHAR"/>
+        <result property="birthWeight" column="birth_weight" jdbcType="DECIMAL"/>
+        <result property="birthLength" column="birth_length" jdbcType="DECIMAL"/>
+        <result property="weight" column="weight" jdbcType="DECIMAL"/>
+        <result property="length" column="length" jdbcType="DECIMAL"/>
+        <result property="feedWay" column="feed_way" jdbcType="VARCHAR"/>
+        <result property="drugRoute" column="drug_route" jdbcType="VARCHAR"/>
+        <result property="dailyFeedingTimes" column="daily_feeding_times" jdbcType="INTEGER"/>
+        <result property="dailyFeedingAmount" column="daily_feeding_amount" jdbcType="INTEGER"/>
+        <result property="stoolTimes" column="stool_times" jdbcType="INTEGER"/>
+        <result property="visitDoctorName" column="visit_doctor_name" jdbcType="VARCHAR"/>
+        <result property="thisVisitDate" column="this_visit_date" jdbcType="TIMESTAMP"/>
+        <result property="nextVisitDate" column="next_visit_date" jdbcType="TIMESTAMP"/>
+        <result property="creater" column="creater" jdbcType="VARCHAR"/>
+        <result property="itemCreateAt" column="itemCreateAt" jdbcType="TIMESTAMP"/>
+        <result property="updater" column="updater" jdbcType="VARCHAR"/>
+        <result property="itemUpdateAt" column="itemUpdateAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        itemID,
+        itemCode,
+        patient_id,
+        newBorn_name,
+        newBorn_sex,
+        newBorn_birth_date,
+        exam_summary,
+        newBorn_id_type,
+        newBorn_id_no,
+        father_name,
+        mother_name,
+        birth_weight,
+        birth_length,
+        weight,
+        length,
+        feed_way,
+        drug_route,
+        daily_feeding_times,
+        daily_feeding_amount,
+        stool_times,
+        visit_doctor_name,
+        this_visit_date,
+        next_visit_date,
+        creater,
+        itemCreateAt,
+        updater,
+        itemUpdateAt
+    </sql>
+    
+    <select id="selectHealthChildren" resultMap="BaseHealthChildren">
+        select <include refid="Base_Column_List"/>
+        from tb_natmeha_health_children
+        <where>
+            itemId=#{id}
+        </where>
+    </select>
+</mapper>

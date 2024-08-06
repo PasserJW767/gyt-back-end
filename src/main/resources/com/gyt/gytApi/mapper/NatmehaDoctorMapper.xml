@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyt.gytApi.mapper.NatmehaDoctorMapper">
+
+    <resultMap id="BaseResultMap" type="com.gyt.gytApi.domain.NatmehaDoctorDTO">
+            <id property="itemid" column="itemID" jdbcType="INTEGER"/>
+            <id property="itemcode" column="itemCode" jdbcType="CHAR"/>
+            <result property="doctorName" column="DOCTOR_NAME" jdbcType="VARCHAR"/>
+            <result property="doctorTitle" column="DOCTOR_TITLE" jdbcType="VARCHAR"/>
+            <result property="doctorTreatment" column="DOCTOR_TREATMENT" jdbcType="VARCHAR"/>
+            <result property="doctorSorce" column="DOCTOR_SORCE" jdbcType="DOUBLE"/>
+            <result property="deptCode" column="DEPT_CODE" jdbcType="VARCHAR"/>
+            <result property="numType" column="NUM_TYPE" jdbcType="VARCHAR"/>
+            <result property="userCode" column="USER_CODE" jdbcType="CHAR"/>
+            <result property="creater" column="CREATER" jdbcType="VARCHAR"/>
+            <result property="itemcreateat" column="itemCreateAt" jdbcType="TIMESTAMP"/>
+            <result property="updater" column="UPDATER" jdbcType="VARCHAR"/>
+            <result property="itemupdateat" column="itemUpdateAt" jdbcType="TIMESTAMP"/>
+            <result property="orgCode" column="ORG_CODE" jdbcType="CHAR"/>
+    </resultMap>
+
+    <!--医院信息结果集-->
+    <resultMap id="hospitalDoctorResultMap" type="com.gyt.gytApi.domain.NatmehaDoctorDTO" extends="BaseResultMap">
+        <association property="natmehaSignalSourceDTO" javaType="com.gyt.gytApi.domain.NatmehaSignalSourceDTO">
+            <id property="itemid" column="itemID" jdbcType="INTEGER"/>
+            <id property="itemcode" column="itemCode" jdbcType="CHAR"/>
+            <result property="doctorCode" column="DOCTOR_CODE" jdbcType="CHAR"/>
+            <result property="status" column="STATUS" jdbcType="VARCHAR"/>
+            <result property="registerCount" column="REGISTER_COUNT" jdbcType="INTEGER"/>
+        </association>
+        <association property="natmehaFileDTO" javaType="com.gyt.gytApi.domain.NatmehaFileDTO">
+            <id property="itemid" column="itemID" jdbcType="INTEGER"/>
+            <id property="itemcode" column="itemCode" jdbcType="CHAR"/>
+            <result property="dataCode" column="DATA_CODE" jdbcType="CHAR"/>
+            <result property="filePath" column="FILE_PATH" jdbcType="VARCHAR"/>
+        </association>
+        <association property="natmehaHospitalDTO" javaType="com.gyt.gytApi.domain.NatmehaHospitalDTO">
+            <id property="itemid" column="itemID" jdbcType="INTEGER"/>
+            <id property="itemcode" column="itemCode" jdbcType="CHAR"/>
+            <result property="hospitalPro" column="HOSPITAL_PRO" jdbcType="VARCHAR"/>
+            <result property="hospitalCity" column="HOSPITAL_CITY" jdbcType="VARCHAR"/>
+            <result property="hospitalCountry" column="HOSPITAL_COUNTRY" jdbcType="VARCHAR"/>
+            <result property="hospitalAdress" column="HOSPITAL_ADRESS" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+    <resultMap id="selectDoctorListByHospitalMap" type="com.gyt.gytApi.domain.NatmehaDoctorDTO" extends="BaseResultMap">
+        <association property="natmehaFileDTO">
+            <id column="itemID" jdbcType="INTEGER" property="itemid" />
+            <id column="itemCode" jdbcType="CHAR" property="itemcode" />
+            <result column="DATA_CODE" jdbcType="CHAR" property="dataCode" />
+            <result column="UPLOADER" jdbcType="VARCHAR" property="uploader" />
+            <result column="UPLOADER_CODE" jdbcType="CHAR" property="uploaderCode" />
+            <result column="FILE_NAME" jdbcType="VARCHAR" property="fileName" />
+            <result column="FILE_TYPE" jdbcType="VARCHAR" property="fileType" />
+            <result column="FILE_SIZE" jdbcType="DOUBLE" property="fileSize" />
+            <result column="FILE_PATH" jdbcType="VARCHAR" property="filePath" />
+            <result column="itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+        </association>
+    </resultMap>
+    <resultMap id="selectDoctorInfoForConfirmMap" type="com.gyt.gytApi.domain.NatmehaDoctorDTO" extends="BaseResultMap">
+        <association property="natmehaHospitalDTO">
+            <id column="itemID" jdbcType="INTEGER" property="itemid" />
+            <id column="itemCode" jdbcType="CHAR" property="itemcode" />
+            <result column="HOSPITAL_NAME" jdbcType="VARCHAR" property="hospitalName" />
+            <result column="HOSPITAL_LEVEL" jdbcType="VARCHAR" property="hospitalLevel" />
+            <result column="HOSPITAL_BOOKING" jdbcType="INTEGER" property="hospitalBooking" />
+            <result column="HOSPITAL_SOURCE" jdbcType="DOUBLE" property="hospitalSource" />
+            <result column="HOSPITAL_DISTANCE" jdbcType="INTEGER" property="hospitalDistance" />
+            <result column="HOSPITAL_PHONE" jdbcType="VARCHAR" property="hospitalPhone" />
+            <result column="HOSPITAL_PRO" jdbcType="VARCHAR" property="hospitalPro" />
+            <result column="HOSPITAL_CITY" jdbcType="VARCHAR" property="hospitalCity" />
+            <result column="HOSPITAL_COUNTRY" jdbcType="VARCHAR" property="hospitalCountry" />
+            <result column="HOSPITAL_ADRESS" jdbcType="VARCHAR" property="hospitalAdress" />
+            <result column="STATUS" jdbcType="VARCHAR" property="status" />
+            <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+            <result column="itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+            <result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+            <result column="itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+        </association>
+    </resultMap>
+    <sql id="Base_Column_List">
+        itemID,itemCode,DOCTOR_NAME,
+        DOCTOR_TITLE,DOCTOR_TREATMENT,DOCTOR_SORCE,
+        DEPT_CODE,NUM_TYPE,USER_CODE,
+        CREATER,itemCreateAt,UPDATER,
+        itemUpdateAt,ORG_CODE
+    </sql>
+
+    <!--/natmehaHospital/getHosDetailServiceTeam查医院服务团队-->
+    <select id="getHosDetailServiceTeam" resultMap="hospitalDoctorResultMap" parameterType="string">
+        select d.itemCode,
+                d.DOCTOR_TITLE,
+                d.DOCTOR_NAME,
+                d.DOCTOR_TREATMENT,
+                d.DOCTOR_SORCE,
+                h.itemCode,
+                h.HOSPITAL_PRO,
+                h.HOSPITAL_CITY,
+                h.HOSPITAL_COUNTRY,
+                h.HOSPITAL_ADRESS,
+                s.itemCode,
+                s.DOCTOR_CODE,
+                s.REGISTER_COUNT,
+                f.itemCode,
+                f.DATA_CODE,
+                f.FILE_PATH
+        from tb_natmeha_doctor d left join tb_natmeha_signal_source s on d.itemCode=s.DOCTOR_CODE
+            left join tb_natmeha_file f on d.ORG_CODE=f.DATA_CODE
+            left join tb_natmeha_hospital h on h.itemCode=d.ORG_CODE
+        where h.itemCode=#{hosItemCode} and s.STATUS=1 and f.FILE_TYPE='医生图片'
+    </select>
+    <!-- 根据医院的itemId选择出今天上班的医生列表 -->
+    <!-- 条件1：所属医院id ORG_CODE=传进来的医院ID -->
+    <!-- 条件2：该医生有从传进来的时间到传进来时间23:59:59的号源 -->
+    <!-- 条件3：号源状态STATUS=1(即有效) -->
+    <select id="selectDoctorListByHospital" resultMap="selectDoctorListByHospitalMap">
+        SELECT DISTINCT d.*,f.*
+        FROM tb_natmeha_doctor d
+                 LEFT JOIN tb_natmeha_signal_source s ON s.DOCTOR_CODE = d.itemCode
+                 LEFT JOIN tb_natmeha_file f ON d.itemCode = f.DATA_CODE
+        WHERE d.ORG_CODE=#{hospitalItemCode}
+          AND s.REGISTER_DATE&gt;=#{startTime}
+          AND s.REGISTER_DATE&lt;=#{endTime}
+          AND s.STATUS = 1
+    </select>
+
+    <select id="selectDoctorInfoForConfirm" resultMap="selectDoctorInfoForConfirmMap">
+        SELECT *
+        FROM tb_natmeha_doctor d
+                 LEFT JOIN tb_natmeha_hospital h ON d.ORG_CODE = h.itemCode
+        WHERE d.itemID=#{itemId} AND d.itemCode=#{itemCode}
+    </select>
+</mapper>

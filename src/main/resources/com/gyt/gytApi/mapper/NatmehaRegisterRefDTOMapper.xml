@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyt.gytApi.mapper.NatmehaRegisterRefDTOMapper">
+  <resultMap id="BaseResultMap" type="com.gyt.gytApi.domain.NatmehaRegisterRefDTO">
+    <id column="itemID" jdbcType="INTEGER" property="itemid" />
+    <id column="itemCode" jdbcType="CHAR" property="itemcode" />
+    <result column="REGISTER_NUM" jdbcType="INTEGER" property="registerNum" />
+    <result column="SOURCE_CODE" jdbcType="CHAR" property="sourceCode" />
+    <result column="USER_CODE" jdbcType="CHAR" property="userCode" />
+    <result column="PATIENT_CODE" jdbcType="CHAR" property="patientCode" />
+    <result column="REGISTER_STATUS" jdbcType="VARCHAR" property="registerStatus" />
+    <result column="ANONYMOUS" jdbcType="BOOLEAN" property="anonymous" />
+    <result column="OVERALL_SOURCE" jdbcType="DOUBLE" property="overallSource" />
+    <result column="EFFECT_SOURCE" jdbcType="DOUBLE" property="effectSource" />
+    <result column="ENVIRONMENT_SOURCE" jdbcType="DOUBLE" property="environmentSource" />
+    <result column="SERVICE_SOURCE" jdbcType="DOUBLE" property="serviceSource" />
+    <result column="ILLNESS" jdbcType="VARCHAR" property="illness" />
+    <result column="SOURCE" jdbcType="DOUBLE" property="source" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+    <result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+    <result column="itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    itemID, itemCode, REGISTER_NUM, SOURCE_CODE, USER_CODE, PATIENT_CODE, REGISTER_STATUS, 
+    ANONYMOUS, OVERALL_SOURCE, EFFECT_SOURCE, ENVIRONMENT_SOURCE, SERVICE_SOURCE, ILLNESS, 
+    `SOURCE`, CREATER, itemCreateAt, UPDATER, itemUpdateAt
+  </sql>
+
+</mapper>

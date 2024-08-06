@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyt.gytApi.mapper.HealthRecordsMapper">
+
+    <resultMap id="BaseHealthRecords" type="com.gyt.gytApi.domain.HealthRecordsDTO">
+        <id property="itemId" column="itemID" jdbcType="INTEGER"/>
+        <id property="itemCode" column="itemCode" jdbcType="CHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="gender" column="gender" jdbcType="VARCHAR"/>
+        <result property="birth" column="birth" jdbcType="DATE"/>
+        <result property="phone" column="phone" jdbcType="DATE"/>
+        <result property="adressPro" column="adress_pro" jdbcType="VARCHAR"/>
+        <result property="adressCity" column="adress_city" jdbcType="VARCHAR"/>
+        <result property="adressCountry" column="adress_country" jdbcType="VARCHAR"/>
+        <result property="adress" column="adress" jdbcType="VARCHAR"/>
+        <result property="nation" column="nation" jdbcType="VARCHAR"/>
+        <result property="bloodType" column="blood_type" jdbcType="VARCHAR"/>
+        <result property="education" column="education" jdbcType="VARCHAR"/>
+        <result property="occupation" column="occupation" jdbcType="VARCHAR"/>
+        <result property="height" column="height" jdbcType="DOUBLE"/>
+        <result property="weight" column="weight" jdbcType="DOUBLE"/>
+        <result property="bmi" column="bmi" jdbcType="VARCHAR"/>
+        <result property="diseaseHistory" column="disease_history" jdbcType="VARCHAR"/>
+        <result property="allergy" column="allergy" jdbcType="VARCHAR"/>
+        <result property="userCode" column="user_code" jdbcType="CHAR"/>
+        <result property="creater" column="creater" jdbcType="VARCHAR"/>
+        <result property="itemCreateAt" column="itemCreateAt" jdbcType="TIMESTAMP"/>
+        <result property="updater" column="updater" jdbcType="VARCHAR"/>
+        <result property="itemUpdateAt" column="itemUpdateAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        itemID,
+        itemCode,
+        name,
+        gender,
+        birth,
+        phone,
+        adress_pro,
+        adress_city,
+        adress_country,
+        adress,
+        nation,
+        blood_type,
+        education,
+        occupation,
+        height,
+        weight,
+        bmi,
+        disease_history,
+        allergy,
+        user_code,
+        creater,
+        itemCreateAt,
+        updater,
+        itemUpdateAt
+    </sql>
+
+    <select id="selectHealthRecords" resultMap="BaseHealthRecords">
+        select <include refid="Base_Column_List"/>
+        from tb_natmeha_health_records
+        <where>
+            itemId=#{id}
+        </where>
+    </select>
+</mapper>

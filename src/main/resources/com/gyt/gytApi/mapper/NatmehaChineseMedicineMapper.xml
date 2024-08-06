@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyt.gytApi.mapper.NatmehaChineseMedicineMapper">
+  <resultMap id="BaseResultMap" type="com.gyt.gytApi.domain.NatmehaChineseMedicineDTO">
+    <id column="itemID" jdbcType="INTEGER" property="itemId" />
+    <id column="itemCode" jdbcType="CHAR" property="itemCode" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="ALIAS" jdbcType="VARCHAR" property="alias" />
+    <result column="CLASSIFICATION" jdbcType="VARCHAR" property="classification" />
+    <result column="HARVESTING" jdbcType="VARCHAR" property="harvesting" />
+    <result column="TASTE" jdbcType="VARCHAR" property="taste" />
+    <result column="MER_TROPISM" jdbcType="VARCHAR" property="merTropism" />
+    <result column="GOVERNANCE" jdbcType="VARCHAR" property="governance" />
+    <result column="USAGE" jdbcType="VARCHAR" property="usage" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="USER_CODE" jdbcType="CHAR" property="userCode" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+    <result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+    <result column="itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+  </resultMap>
+
+  <resultMap id="NatmehaChineseMedicineResultMap" type="com.gyt.gytApi.domain.NatmehaChineseMedicineDTO" extends="BaseResultMap">
+    <association property="natmehaFileDTO" javaType="com.gyt.gytApi.domain.NatmehaFileDTO" >
+        <id column="itemID" jdbcType="INTEGER" property="itemid" />
+        <id column="itemCode" jdbcType="CHAR" property="itemcode" />
+        <result column="DATA_CODE" jdbcType="CHAR" property="dataCode" />
+        <result column="UPLOADER" jdbcType="VARCHAR" property="uploader" />
+        <result column="UPLOADER_CODE" jdbcType="CHAR" property="uploaderCode" />
+        <result column="FILE_NAME" jdbcType="VARCHAR" property="fileName" />
+        <result column="FILE_TYPE" jdbcType="VARCHAR" property="fileType" />
+        <result column="FILE_SIZE" jdbcType="DOUBLE" property="fileSize" />
+        <result column="FILE_PATH" jdbcType="VARCHAR" property="filePath" />
+        <result column="itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+    </association>
+  </resultMap>
+
+  <select id="selectNatmehaChineseMedicines"  resultMap="NatmehaChineseMedicineResultMap">
+    select  cm.itemID,
+            cm.itemCode,
+            cm.NAME,
+            cm.ALIAS,
+            cm.CLASSIFICATION,
+            cm.HARVESTING,
+            cm.TASTE,
+            cm.MER_TROPISM,
+            cm.GOVERNANCE,
+            cm.USAGE,
+            cm.STATUS,
+            cm.itemCreateAt,
+            cm.itemUpdateAt,
+            f.itemID,
+            f.itemCode,
+            f.FILE_NAME,
+            f.FILE_TYPE,
+            f.FILE_PATH
+    from tb_natmeha_chinese_medicine cm
+    left join tb_natmeha_file f
+    on cm.itemCode = f.DATA_CODE
+    where cm.STATUS='1'
+  </select>
+    <select id="selectByItemCode"  resultMap="NatmehaChineseMedicineResultMap">
+        select  cm.itemID,
+                cm.itemCode,
+                cm.NAME,
+                cm.ALIAS,
+                cm.CLASSIFICATION,
+                cm.HARVESTING,
+                cm.TASTE,
+                cm.MER_TROPISM,
+                cm.GOVERNANCE,
+                cm.USAGE,
+                cm.STATUS,
+                cm.itemCreateAt,
+                cm.itemUpdateAt,
+                f.itemID,
+                f.itemCode,
+                f.FILE_NAME,
+                f.FILE_TYPE,
+                f.FILE_PATH
+        from tb_natmeha_chinese_medicine cm
+        left join tb_natmeha_file f
+        on cm.itemCode = f.DATA_CODE
+        where cm.itemCode=#{itemCode,jdbcType=VARCHAR} and cm.STATUS='1'
+    </select>
+
+</mapper>

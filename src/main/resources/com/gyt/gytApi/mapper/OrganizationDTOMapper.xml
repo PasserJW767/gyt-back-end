@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyt.gytApi.mapper.OrganizationDTOMapper">
+  <resultMap id="BaseResultMap" type="com.gyt.gytApi.domain.OrganizationDTO">
+    <id column="itemID" jdbcType="INTEGER" property="itemid" />
+    <result column="itemCode" jdbcType="CHAR" property="itemcode" />
+    <result column="ORG_NAME" jdbcType="VARCHAR" property="orgName" />
+    <result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
+    <result column="ORG_DESCRIPTION" jdbcType="VARCHAR" property="orgDescription" />
+    <result column="ORG_IDENTIFY" jdbcType="VARCHAR" property="orgIdentify" />
+    <result column="backup1" jdbcType="VARCHAR" property="backup1" />
+    <result column="backup2" jdbcType="VARCHAR" property="backup2" />
+    <result column="LEFT" jdbcType="INTEGER" property="left" />
+    <result column="RIGHT" jdbcType="INTEGER" property="right" />
+    <result column="LEVEL" jdbcType="INTEGER" property="level" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+    <result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+    <result column="itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    itemID, itemCode, ORG_NAME, ORG_CODE, ORG_DESCRIPTION, ORG_IDENTIFY, backup1, backup2, 
+    `LEFT`, `RIGHT`, `LEVEL`, CREATER, itemCreateAt, UPDATER, itemUpdateAt
+  </sql>
+
+</mapper>

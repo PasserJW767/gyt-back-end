@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyt.gytApi.mapper.NatmehaInteTreatMapper">
+  <resultMap id="BaseResultMap" type="com.gyt.gytApi.domain.NatmehaInteTreatDTO">
+    <id column="itemID" jdbcType="INTEGER" property="itemid" />
+    <id column="itemCode" jdbcType="CHAR" property="itemcode" />
+    <result column="GENDER" jdbcType="VARCHAR" property="gender" />
+    <result column="BIRTH" jdbcType="DATE" property="birth" />
+    <result column="DISCOMFORT_SITE" jdbcType="VARCHAR" property="discomfortSite" />
+    <result column="SYMPTOM" jdbcType="VARCHAR" property="symptom" />
+    <result column="DESCRIBE" jdbcType="VARCHAR" property="describe" />
+    <result column="POSITION" jdbcType="VARCHAR" property="position" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="USER_CODE" jdbcType="CHAR" property="userCode" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+    <result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+    <result column="itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    itemID, itemCode, GENDER, BIRTH, DISCOMFORT_SITE, SYMPTOM, `DESCRIBE`, `POSITION`, 
+    `STATUS`, USER_CODE, CREATER, itemCreateAt, UPDATER, itemUpdateAt
+  </sql>
+
+  <!--智能导诊：保存信息-->
+
+  <insert id="insertSelectiveInteTreat" parameterType="com.gyt.gytApi.domain.NatmehaInteTreatDTO">
+    <selectKey keyProperty="itemcode" resultType="java.lang.String" order="BEFORE">
+      select UUID()
+    </selectKey>
+    insert into tb_natmeha_inte_treat
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="true ">
+        itemCode,
+      </if>
+      <if test="gender != null">
+        GENDER,
+      </if>
+      <if test="birth != null">
+        BIRTH,
+      </if>
+      <if test="discomfortSite != null">
+        DISCOMFORT_SITE,
+      </if>
+      <if test="symptom != null">
+        SYMPTOM,
+      </if>
+      <if test="describe != null">
+        `DESCRIBE`,
+      </if>
+      <if test="position != null">
+        `POSITION`,
+      </if>
+      <if test="status != null">
+        `STATUS`,
+      </if>
+      <if test="userCode != null">
+        USER_CODE,
+      </if>
+      <if test="creater != null">
+        CREATER,
+      </if>
+      <if test="itemcreateat != null">
+        itemCreateAt,
+      </if>
+      <if test="updater != null">
+        UPDATER,
+      </if>
+      <if test="itemupdateat != null">
+        itemUpdateAt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="true">
+        #{itemcode,jdbcType=CHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="birth != null">
+        #{birth,jdbcType=DATE},
+      </if>
+      <if test="discomfortSite != null">
+        #{discomfortSite,jdbcType=VARCHAR},
+      </if>
+      <if test="symptom != null">
+        #{symptom,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="userCode != null">
+        #{userCode,jdbcType=CHAR},
+      </if>
+      <if test="creater != null">
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="itemcreateat != null">
+        #{itemcreateat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="itemupdateat != null">
+        #{itemupdateat,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>

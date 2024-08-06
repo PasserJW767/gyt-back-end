@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyt.gytApi.mapper.TbNatmehaMedRecordsDTOMapper">
+  <resultMap id="BaseResultMap" type="com.gyt.gytApi.domain.NatmehaMedRecordsDTO">
+    <id column="itemID" jdbcType="INTEGER" property="itemid" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+    <result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+    <result column="itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+    <result column="OUTPAT_FORM_NO" jdbcType="VARCHAR" property="outpatFormNo" />
+    <result column="IDCARD_NO" jdbcType="VARCHAR" property="idcardNo" />
+    <result column="VISIT_ORG_NAME" jdbcType="VARCHAR" property="visitOrgName" />
+    <result column="VISIT_DTIME" jdbcType="TIMESTAMP" property="visitDtime" />
+    <result column="HEALTH_PROBLEM_EVAL" jdbcType="VARCHAR" property="healthProblemEval" />
+    <result column="RESP_DOCTOR_NAME" jdbcType="VARCHAR" property="respDoctorName" />
+    <result column="OUTPAT_DIAG_NAME" jdbcType="VARCHAR" property="outpatDiagName" />
+    <result column="DIAG_DATE" jdbcType="TIMESTAMP" property="diagDate" />
+    <result column="IN_DEPT_NAME" jdbcType="VARCHAR" property="inDeptName" />
+    <result column="IN_DTIME" jdbcType="TIMESTAMP" property="inDtime" />
+    <result column="OUT_DTIME" jdbcType="TIMESTAMP" property="outDtime" />
+    <result column="IN_REASON_CODE" jdbcType="VARCHAR" property="inReasonCode" />
+    <result column="IN_BED" jdbcType="VARCHAR" property="inBed" />
+    <result column="OUT_DEPT_NAME" jdbcType="VARCHAR" property="outDeptName" />
+    <result column="OTHER_MEDICAL_TREATMENT" jdbcType="VARCHAR" property="otherMedicalTreatment" />
+    <result column="VISIT_DEPT_NAME" jdbcType="VARCHAR" property="visitDeptName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    itemID, CREATER, itemCreateAt, UPDATER, itemUpdateAt, OUTPAT_FORM_NO, IDCARD_NO, 
+    VISIT_ORG_NAME, VISIT_DTIME, HEALTH_PROBLEM_EVAL, RESP_DOCTOR_NAME, OUTPAT_DIAG_NAME, 
+    DIAG_DATE, IN_DEPT_NAME, IN_DTIME, OUT_DTIME, IN_REASON_CODE, IN_BED, OUT_DEPT_NAME, 
+    OTHER_MEDICAL_TREATMENT, VISIT_DEPT_NAME
+  </sql>
+
+</mapper>

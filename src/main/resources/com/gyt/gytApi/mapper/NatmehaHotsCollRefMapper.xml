@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyt.gytApi.mapper.NatmehaHotsCollRefMapper">
+  <resultMap id="BaseResultMap" type="com.gyt.gytApi.domain.NatmehaHotsCollRefDTO">
+    <id column="itemID" jdbcType="INTEGER" property="itemId" />
+    <id column="itemCode" jdbcType="CHAR" property="itemCode" />
+    <result column="HOTSPOT_CODE" jdbcType="CHAR" property="hotspotCode" />
+    <result column="USER_CODE" jdbcType="CHAR" property="userCode" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+    <result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+    <result column="itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    itemID, itemCode, HOTSPOT_CODE, USER_CODE, CREATER, itemCreateAt, UPDATER, itemUpdateAt
+  </sql>
+  <select id="selectByHospotCodeAndUserCode" parameterType="com.gyt.gytApi.domain.NatmehaHotsCollRefDTO" resultMap="BaseResultMap">
+    select itemID,
+           itemCode,
+           HOTSPOT_CODE,
+           USER_CODE,
+           CREATER,
+           itemCreateAt,
+           UPDATER,
+           itemUpdateAt
+    from tb_natmeha_hots_coll_ref
+    where HOTSPOT_CODE = #{hotspotCode,jdbcType=CHAR}
+      and USER_CODE = #{userCode,jdbcType=CHAR}
+  </select>
+
+  <!-- 收藏 > 热点 -->
+  <insert id="insertHotSpot" keyColumn="itemID"  parameterType="com.gyt.gytApi.domain.NatmehaHotsCollRefDTO" useGeneratedKeys="true">
+    INSERT INTO tb_natmeha_hots_coll_ref
+      (itemCode, USER_CODE, HOTSPOT_CODE)
+    SELECT uuid(),
+           #{userCode,jdbcType=CHAR},
+           #{hotspotCode,jdbcType=CHAR}
+    FROM DUAL
+    WHERE NOT EXISTS (
+            SELECT * FROM tb_natmeha_hots_coll_ref ref
+            WHERE ref.USER_CODE = #{userCode,jdbcType=CHAR}
+              and ref.HOTSPOT_CODE = #{hotspotCode,jdbcType=CHAR}
+      )
+  </insert>
+
+  <!-- 取消收藏 > 热点 -->
+  <delete id="deleteHotSpot" parameterType="com.gyt.gytApi.domain.NatmehaHotsCollRefDTO">
+    delete from tb_natmeha_hots_coll_ref
+    where USER_CODE = #{userCode,jdbcType=CHAR}
+      and HOTSPOT_CODE = #{hotspotCode,jdbcType=CHAR}
+  </delete>
+
+</mapper>

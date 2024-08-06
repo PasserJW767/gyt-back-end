@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyt.gytApi.mapper.NatmehaPatientMapper">
+  <resultMap id="BaseResultMap" type="com.gyt.gytApi.domain.NatmehaPatientDTO">
+    <id column="itemID" jdbcType="INTEGER" property="itemid" />
+    <id column="itemCode" jdbcType="CHAR" property="itemcode" />
+    <result column="PATIENT_NAME" jdbcType="VARCHAR" property="patientName" />
+    <result column="GENDER" jdbcType="VARCHAR" property="gender" />
+    <result column="IDCARD_TYPE" jdbcType="VARCHAR" property="idcardType" />
+    <result column="IDCARD_NO" jdbcType="VARCHAR" property="idcardNo" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="RELATIONSHIP" jdbcType="VARCHAR" property="relationship" />
+    <result column="DEFAULT_PATIENT" jdbcType="VARCHAR" property="defaultPatient" />
+    <result column="ADRESS_PRO" jdbcType="VARCHAR" property="adressPro" />
+    <result column="ADRESS_CITY" jdbcType="VARCHAR" property="adressCity" />
+    <result column="ADRESS_COUNTRY" jdbcType="VARCHAR" property="adressCountry" />
+    <result column="ADRESS" jdbcType="VARCHAR" property="adress" />
+    <result column="MARITAL_STATUS" jdbcType="VARCHAR" property="maritalStatus" />
+    <result column="USER_CODE" jdbcType="CHAR" property="userCode" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+    <result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+    <result column="itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+    <result column="BIRTHDATE" jdbcType="DATE" property="birthdate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    itemID, itemCode, PATIENT_NAME, GENDER, IDCARD_TYPE, IDCARD_NO, PHONE, RELATIONSHIP, 
+    DEFAULT_PATIENT, ADRESS_PRO, ADRESS_CITY, ADRESS_COUNTRY, ADRESS, MARITAL_STATUS, 
+    USER_CODE, CREATER, itemCreateAt, UPDATER, itemUpdateAt, BIRTHDATE
+  </sql>
+  <!-- 根据userCode选择其下的就诊人列表 -->
+  <select id="selectPatientInfoByUserCode" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM tb_natmeha_patient
+    WHERE USER_CODE=#{id}
+    ORDER BY DEFAULT_PATIENT DESC
+  </select>
+</mapper>

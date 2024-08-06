@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyt.gytApi.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.gyt.gytApi.domain.UserDTO">
+    <id column="itemID" jdbcType="INTEGER" property="itemid" />
+    <id column="itemCode" jdbcType="CHAR" property="itemcode" />
+    <result column="ORG_CODE" jdbcType="CHAR" property="orgCode" />
+    <result column="USERNAME" jdbcType="VARCHAR" property="username" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="SALT" jdbcType="VARCHAR" property="salt" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="GENDER" jdbcType="VARCHAR" property="gender" />
+    <result column="IDCARD_TYPE" jdbcType="VARCHAR" property="idcardType" />
+    <result column="IDCARD_NO" jdbcType="VARCHAR" property="idcardNo" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="STATE" jdbcType="VARCHAR" property="state" />
+    <result column="mobilePhone" jdbcType="VARCHAR" property="mobilephone" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+    <result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+    <result column="itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+    <result column="CITYID" jdbcType="CHAR" property="cityid" />
+    <result column="TYPE" jdbcType="INTEGER" property="type" />
+    <result column="BIRTH" jdbcType="DATE" property="birth" />
+    <result column="WX_OPENID" jdbcType="CHAR" property="wxOpenid" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.gyt.gytApi.domain.UserDTO">
+    <result column="PORTRAIT" jdbcType="BLOB" property="portrait" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    itemID, itemCode, ORG_CODE, USERNAME, `PASSWORD`, SALT, `NAME`, GENDER, IDCARD_TYPE,
+    IDCARD_NO, EMAIL, `STATE`, mobilePhone, CREATER, itemCreateAt, UPDATER, itemUpdateAt,
+    CITYID, `TYPE`, BIRTH, WX_OPENID
+  </sql>
+  <sql id="Blob_Column_List">
+    PORTRAIT
+  </sql>
+  <select id="seletAll" resultMap="BaseResultMap">
+                select  <include refid="Base_Column_List"/>
+          from user
+  </select>
+  <!--查询用户信息-->
+  <select id="selectUserByPk" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> ,<include refid="Blob_Column_List"/>
+    from user where itemID=#{itemid} and itemCode=#{itemcode}
+  </select>
+  <!--更新用户信息-->
+  <update id="updateUserbyPk">
+    update user set
+         <if test="user.name !=null">
+              NAME = #{user.name,jdbcType=VARCHAR},
+          </if>
+      <if test="user.portrait !=null">
+          PORTRAIT=#{user.portrait},
+      </if>
+      <if test="user.gender !=null">
+          GENDER=#{user.gender,jdbcType=VARCHAR},
+      </if>
+      <if test="user.birth !=null">
+          BIRTH = #{user.birth,jdbcType=DATE},
+      </if>
+      <if test="user.mobilephone !=null">
+          mobilePhone = #{user.mobilephone,jdbcType=VARCHAR}
+      </if>
+           where itemID = #{user.itemid,jdbcType=INTEGER}
+            and itemCode = #{user.itemcode,jdbcType=CHAR}
+  </update>
+  <resultMap id="RegRefResultMap" type="com.gyt.gytApi.domain.UserDTO" >
+      <!--user表-->
+      <id column="user_itemID" jdbcType="INTEGER" property="itemid" />
+      <id column="user_itemCode" jdbcType="CHAR" property="itemcode" />
+      <result column="user.ORG_CODE" jdbcType="CHAR" property="orgCode" />
+      <result column="USERNAME" jdbcType="VARCHAR" property="username" />
+      <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+      <result column="SALT" jdbcType="VARCHAR" property="salt" />
+      <result column="NAME" jdbcType="VARCHAR" property="name" />
+      <result column="user.GENDER" jdbcType="VARCHAR" property="gender" />
+      <result column="user.IDCARD_TYPE" jdbcType="VARCHAR" property="idcardType" />
+      <result column="user.IDCARD_NO" jdbcType="VARCHAR" property="idcardNo" />
+      <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+      <result column="STATE" jdbcType="VARCHAR" property="state" />
+      <result column="mobilePhone" jdbcType="VARCHAR" property="mobilephone" />
+      <result column="user.CREATER" jdbcType="VARCHAR" property="creater" />
+      <result column="user.itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+      <result column="user.UPDATER" jdbcType="VARCHAR" property="updater" />
+      <result column="user.itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+      <result column="CITYID" jdbcType="CHAR" property="cityid" />
+      <result column="TYPE" jdbcType="INTEGER" property="type" />
+      <result column="BIRTH" jdbcType="DATE" property="birth" />
+      <result column="WX_OPENID" jdbcType="CHAR" property="wxOpenid" />
+    <!--挂号表-->
+        <collection property="natmehaRegisterRefDTOList"   ofType="com.gyt.gytApi.domain.NatmehaRegisterRefDTO">
+            <id column="regref_itemID" jdbcType="INTEGER" property="itemid" />
+            <id column="regref_itemCode" jdbcType="CHAR" property="itemcode" />
+            <result column="REGISTER_NUM" jdbcType="INTEGER" property="registerNum" />
+            <result column="SOURCE_CODE" jdbcType="CHAR" property="sourceCode" />
+            <result column="regref_USER_CODE" jdbcType="CHAR" property="userCode" />
+            <result column="PATIENT_CODE" jdbcType="CHAR" property="patientCode" />
+            <result column="REGISTER_STATUS" jdbcType="VARCHAR" property="registerStatus" />
+            <result column="ANONYMOUS" jdbcType="BOOLEAN" property="anonymous" />
+            <result column="OVERALL_SOURCE" jdbcType="DOUBLE" property="overallSource" />
+            <result column="EFFECT_SOURCE" jdbcType="DOUBLE" property="effectSource" />
+            <result column="ENVIRONMENT_SOURCE" jdbcType="DOUBLE" property="environmentSource" />
+            <result column="SERVICE_SOURCE" jdbcType="DOUBLE" property="serviceSource" />
+            <result column="ILLNESS" jdbcType="VARCHAR" property="illness" />
+            <result column="SOURCE" jdbcType="DOUBLE" property="source" />
+            <result column=" regref.CREATER" jdbcType="VARCHAR" property="creater" />
+            <result column="regref_itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+            <result column="regref.UPDATER" jdbcType="VARCHAR" property="updater" />
+            <result column="regref_itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+          <!--就诊人-->
+            <association property="natmehaPatientDTO" javaType="com.gyt.gytApi.domain.NatmehaPatientDTO">
+                <id column="tnp_itemID" jdbcType="INTEGER" property="itemid" />
+                <id column="tnp_itemCode" jdbcType="CHAR" property="itemcode" />
+                <result column="PATIENT_NAME" jdbcType="VARCHAR" property="patientName" />
+                <result column="tnp_GENDER" jdbcType="VARCHAR" property="gender" />
+                <result column="tnp_IDCARD_TYPE" jdbcType="VARCHAR" property="idcardType" />
+                <result column="tnp_IDCARD_NO" jdbcType="VARCHAR" property="idcardNo" />
+                <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+                <result column="RELATIONSHIP" jdbcType="VARCHAR" property="relationship" />
+                <result column="DEFAULT_PATIENT" jdbcType="VARCHAR" property="defaultPatient" />
+                <result column="ADRESS_PRO" jdbcType="VARCHAR" property="adressPro" />
+                <result column="ADRESS_CITY" jdbcType="VARCHAR" property="adressCity" />
+                <result column="ADRESS_COUNTRY" jdbcType="VARCHAR" property="adressCountry" />
+                <result column="ADRESS" jdbcType="VARCHAR" property="adress" />
+                <result column="MARITAL_STATUS" jdbcType="VARCHAR" property="maritalStatus" />
+                <result column="tnp.USER_CODE" jdbcType="CHAR" property="userCode" />
+                <result column="tnp.CREATER" jdbcType="VARCHAR" property="creater" />
+                <result column="tnp.itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+                <result column="tnp.UPDATER" jdbcType="VARCHAR" property="updater" />
+                <result column="tnp.itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+                <result column="BIRTHDATE" jdbcType="DATE" property="birthdate" />
+            </association>
+          <!--号源表-->
+          <association property="natmehaSignalSourceDTO" javaType="com.gyt.gytApi.domain.NatmehaSignalSourceDTO">
+              <id column="tnss_itemID" jdbcType="INTEGER" property="itemid" />
+              <id column="tnss_itemCode" jdbcType="CHAR" property="itemcode" />
+              <result column="DOCTOR_CODE" jdbcType="CHAR" property="doctorCode" />
+              <result column="REGISTER_TYPE" jdbcType="VARCHAR" property="registerType" />
+              <result column="REGISTER_DATE" jdbcType="TIMESTAMP" property="registerDate" />
+              <result column="REGISTER_COUNT" jdbcType="INTEGER" property="registerCount" />
+              <result column="STATUS" jdbcType="VARCHAR" property="status" />
+              <result column="tnss.USER_CODE" jdbcType="CHAR" property="userCode" />
+              <result column="tnss.CREATER" jdbcType="VARCHAR" property="creater" />
+              <result column="tnss.itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+              <result column="tnss.UPDATER" jdbcType="VARCHAR" property="updater" />
+              <result column="tnss.itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+            <!--医生表-->
+              <association property="natmehaDoctorDTO" >
+                  <id column="tnd_itemID" jdbcType="INTEGER" property="itemid" />
+                  <id column="tnd_itemCode" jdbcType="CHAR" property="itemcode" />
+                  <result column="DOCTOR_NAME" jdbcType="VARCHAR" property="doctorName" />
+                  <result column="DOCTOR_TITLE" jdbcType="VARCHAR" property="doctorTitle" />
+                  <result column="DOCTOR_TREATMENT" jdbcType="VARCHAR" property="doctorTreatment" />
+                  <result column="DOCTOR_SORCE" jdbcType="DOUBLE" property="doctorSorce" />
+                  <result column="DEPT_CODE" jdbcType="VARCHAR" property="deptCode" />
+                  <result column="NUM_TYPE" jdbcType="VARCHAR" property="numType" />
+                  <result column="tnd.USER_CODE" jdbcType="CHAR" property="userCode" />
+                  <result column="tnd.CREATER" jdbcType="VARCHAR" property="creater" />
+                  <result column="tnd.itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+                  <result column="tnd.UPDATER" jdbcType="VARCHAR" property="updater" />
+                  <result column="tnd.itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+                  <result column="tnd_ORG_CODE" jdbcType="CHAR" property="orgCode" />
+                  <!--医生所属机构-->
+                  <association property="natmehaHospitalDTO">
+                      <result column="HOSPITAL_NAME" jdbcType="VARCHAR" property="hospitalName" />
+                      <result column="h_itemcode" jdbcType="VARCHAR" property="itemcode" />
+                  </association>
+              </association>
+          </association>
+        </collection>
+  </resultMap>
+  <!--查询用户挂号信息-->
+  <select id="selectRegRef" resultMap="RegRefResultMap">
+    select    user.itemID user_itemID, user.itemCode user_itemCode, user.ORG_CODE, user.USERNAME, user.PASSWORD, user.SALT, user.NAME, user.GENDER,
+                user.IDCARD_TYPE,user.IDCARD_NO, user.EMAIL, user.STATE, user.mobilePhone,
+               user.CREATER, user.itemCreateAt, user.UPDATER, user.itemUpdateAt,user.CITYID, user.TYPE, user.BIRTH, user.WX_OPENID,
+
+                   regref.itemID regref_itemID, regref.itemCode regref_itemCode, REGISTER_NUM, SOURCE_CODE, regref.USER_CODE regref_USER_CODE, PATIENT_CODE, REGISTER_STATUS,
+               ANONYMOUS, OVERALL_SOURCE, EFFECT_SOURCE, ENVIRONMENT_SOURCE, SERVICE_SOURCE, ILLNESS,
+               `SOURCE`, regref.CREATER, regref.itemCreateAt regref_itemCreateAt, regref.UPDATER, regref.itemUpdateAt regref_itemUpdateAt,
+
+                 tnp.itemID  tnp_itemID, tnp.itemCode tnp_itemCode, PATIENT_NAME, tnp.GENDER tnp_GENDER, tnp.IDCARD_TYPE tnp_IDCARD_TYPE,
+           tnp.IDCARD_NO   tnp_IDCARD_NO, PHONE, RELATIONSHIP,
+               DEFAULT_PATIENT, ADRESS_PRO, ADRESS_CITY, ADRESS_COUNTRY, ADRESS, MARITAL_STATUS,
+               tnp.USER_CODE, tnp.CREATER, tnp.itemCreateAt, tnp.UPDATER, tnp.itemUpdateAt, BIRTHDATE,
+
+                   tnss.itemID  tnss_itemID, tnss.itemCode tnss_itemCode, DOCTOR_CODE, REGISTER_TYPE, REGISTER_DATE, REGISTER_COUNT, tnss.STATUS,
+               tnss.USER_CODE,  tnss.CREATER,  tnss.itemCreateAt,  tnss.UPDATER,  tnss.itemUpdateAt,
+
+               tnd.itemID tnd_itemID, tnd.itemCode tnd_itemCode, DOCTOR_NAME, DOCTOR_TITLE, DOCTOR_TREATMENT, DOCTOR_SORCE, DEPT_CODE,
+               NUM_TYPE, tnd.USER_CODE, tnd.CREATER, tnd.itemCreateAt, tnd.UPDATER, tnd.itemUpdateAt, tnd.ORG_CODE tnd_ORG_CODE,
+
+                HOSPITAL_NAME,h.itemCode h_itemcode
+
+                from user left join tb_natmeha_register_ref regref on  regref.USER_CODE=user.itemCode
+                                    left join tb_natmeha_patient tnp on tnp.itemCode=regref.PATIENT_CODE
+                                    left join tb_natmeha_signal_source tnss on regref.SOURCE_CODE=tnss.itemCode
+                                    left join tb_natmeha_doctor tnd on tnss.DOCTOR_CODE=tnd.itemCode
+                                    left join natmeha.tb_natmeha_hospital h  on h.itemCode = tnd.ORG_CODE
+                where user.itemCode=#{itemcode} and user.itemid=#{itemid}
+  </select>
+    <!--查询用户下就诊人信息-->
+    <resultMap id="PatientResultMap" type="com.gyt.gytApi.domain.UserDTO">
+        <id column="user_itemID" jdbcType="INTEGER" property="itemid" />
+        <id column="user_itemCode" jdbcType="CHAR" property="itemcode" />
+        <result column="ORG_CODE" jdbcType="CHAR" property="orgCode" />
+        <result column="USERNAME" jdbcType="VARCHAR" property="username" />
+        <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+        <result column="SALT" jdbcType="VARCHAR" property="salt" />
+        <result column="NAME" jdbcType="VARCHAR" property="name" />
+        <result column="GENDER" jdbcType="VARCHAR" property="gender" />
+        <result column="user_IDCARD_TYPE" jdbcType="VARCHAR" property="idcardType" />
+        <result column="user_IDCARD_NO" jdbcType="VARCHAR" property="idcardNo" />
+        <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+        <result column="STATE" jdbcType="VARCHAR" property="state" />
+        <result column="mobilePhone" jdbcType="VARCHAR" property="mobilephone" />
+        <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+        <result column="itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+        <result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+        <result column="itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+        <result column="CITYID" jdbcType="CHAR" property="cityid" />
+        <result column="TYPE" jdbcType="INTEGER" property="type" />
+        <result column="BIRTH" jdbcType="DATE" property="birth" />
+        <result column="WX_OPENID" jdbcType="CHAR" property="wxOpenid" />
+                <collection property="natmehaPatientDTOList" ofType="com.gyt.gytApi.domain.NatmehaPatientDTO">
+                    <id column="tnp_itemID" jdbcType="INTEGER" property="itemid" />
+                    <id column="tnp_itemCode" jdbcType="CHAR" property="itemcode" />
+                    <result column="PATIENT_NAME" jdbcType="VARCHAR" property="patientName" />
+                    <result column="tnp_GENDER" jdbcType="VARCHAR" property="gender" />
+                    <result column="tnp_IDCARD_TYPE" jdbcType="VARCHAR" property="idcardType" />
+                    <result column="tnp_IDCARD_NO" jdbcType="VARCHAR" property="idcardNo" />
+                    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+                    <result column="RELATIONSHIP" jdbcType="VARCHAR" property="relationship" />
+                    <result column="DEFAULT_PATIENT" jdbcType="VARCHAR" property="defaultPatient" />
+                    <result column="ADRESS_PRO" jdbcType="VARCHAR" property="adressPro" />
+                    <result column="ADRESS_CITY" jdbcType="VARCHAR" property="adressCity" />
+                    <result column="ADRESS_COUNTRY" jdbcType="VARCHAR" property="adressCountry" />
+                    <result column="ADRESS" jdbcType="VARCHAR" property="adress" />
+                    <result column="MARITAL_STATUS" jdbcType="VARCHAR" property="maritalStatus" />
+                    <result column="USER_CODE" jdbcType="CHAR" property="userCode" />
+                    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+                    <result column="itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+                    <result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+                    <result column="itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+                    <result column="BIRTHDATE" jdbcType="DATE" property="birthdate" />
+                </collection>
+    </resultMap>
+    <!--查询就诊人-->
+    <select id="selectPatient" resultMap="PatientResultMap">
+        select
+            user.itemID user_itemID, user.itemCode user_itemCode, user.ORG_CODE, user.USERNAME, user.PASSWORD, user.SALT, user.NAME, user.GENDER,
+            user.IDCARD_TYPE user_IDCARD_TYPE,user.IDCARD_NO user_IDCARD_NO, user.EMAIL, user.STATE, user.mobilePhone,
+            user.CREATER, user.itemCreateAt, user.UPDATER, user.itemUpdateAt,user.CITYID, user.TYPE, user.BIRTH, user.WX_OPENID,
+
+            tnp.itemID tnp_itemID,  tnp.itemCode  tnp_itemCode, PATIENT_NAME, tnp.GENDER tnp_GENDER, tnp.IDCARD_TYPE tnp_IDCARD_TYPE,
+            tnp.IDCARD_NO   tnp_IDCARD_NO, PHONE, RELATIONSHIP,
+            DEFAULT_PATIENT, ADRESS_PRO, ADRESS_CITY, ADRESS_COUNTRY, ADRESS, MARITAL_STATUS,
+            tnp.USER_CODE, tnp.CREATER, tnp.itemCreateAt, tnp.UPDATER, tnp.itemUpdateAt, BIRTHDATE
+            from user left join tb_natmeha_patient tnp on user.itemCode = tnp.USER_CODE
+            where user.itemCode=#{itemcode} and user.itemID=#{itemid}
+    </select>
+    <!--添加就诊人-->
+    <insert id="addpaitent" parameterType="com.gyt.gytApi.domain.NatmehaPatientDTO">
+        insert into tb_natmeha_patient (itemCode,PATIENT_NAME, GENDER,
+                                        IDCARD_TYPE, IDCARD_NO, PHONE,
+                                        RELATIONSHIP, DEFAULT_PATIENT, ADRESS_PRO,
+                                        ADRESS_CITY, ADRESS_COUNTRY, ADRESS,
+                                        MARITAL_STATUS, USER_CODE, CREATER,
+                                        BIRTHDATE)
+        values ( UUID(),#{patientName,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR},
+                 #{idcardType,jdbcType=VARCHAR}, #{idcardNo,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+                 #{relationship,jdbcType=VARCHAR}, #{defaultPatient,jdbcType=VARCHAR}, #{adressPro,jdbcType=VARCHAR},
+                 #{adressCity,jdbcType=VARCHAR}, #{adressCountry,jdbcType=VARCHAR}, #{adress,jdbcType=VARCHAR},
+                 #{maritalStatus,jdbcType=VARCHAR}, #{userCode,jdbcType=CHAR}, #{creater,jdbcType=VARCHAR},
+                 #{birthdate,jdbcType=DATE})
+    </insert>
+    <!--更新就诊人-->
+    <update id="updatepatient">
+        update tb_natmeha_patient
+        set PATIENT_NAME = #{patientName,jdbcType=VARCHAR},
+            GENDER = #{gender,jdbcType=VARCHAR},
+            IDCARD_TYPE = #{idcardType,jdbcType=VARCHAR},
+            IDCARD_NO = #{idcardNo,jdbcType=VARCHAR},
+            PHONE = #{phone,jdbcType=VARCHAR},
+            RELATIONSHIP = #{relationship,jdbcType=VARCHAR},
+            DEFAULT_PATIENT = #{defaultPatient,jdbcType=VARCHAR},
+            ADRESS_PRO = #{adressPro,jdbcType=VARCHAR},
+            ADRESS_CITY = #{adressCity,jdbcType=VARCHAR},
+            ADRESS_COUNTRY = #{adressCountry,jdbcType=VARCHAR},
+            ADRESS = #{adress,jdbcType=VARCHAR},
+            MARITAL_STATUS = #{maritalStatus,jdbcType=VARCHAR},
+            UPDATER = #{updater,jdbcType=VARCHAR},
+            BIRTHDATE = #{birthdate,jdbcType=DATE}
+        where itemID = #{itemid,jdbcType=INTEGER}
+          and itemCode = #{itemcode,jdbcType=CHAR}
+    </update>
+    <!--删除就诊人-->
+    <delete id="deletepatient">
+        delete from natmeha.tb_natmeha_patient where itemcode =#{itemcode} and itemid=#{itemid}
+    </delete>
+    <!--更新评分-->
+    <update id="updatarefSource">
+                update natmeha.tb_natmeha_register_ref
+                    set ILLNESS =#{illness},overall_source=#{overallSource},
+                    EFFECT_SOURCE=#{effectSource},SERVICE_SOURCE=#{serviceSource},ENVIRONMENT_SOURCE=#{environmentSource},
+                    SOURCE=#{source},ANONYMOUS=#{anonymous}
+                    <if test="anonymous==false">
+                        ,UPDATER=#{updater}
+                    </if>
+                    where itemCode=#{itemcode} and itemID=#{itemid}
+    </update>
+    <!--就诊费用列表-->
+<resultMap id="costDetail" type="com.gyt.gytApi.domain.UserDTO">
+    <id column="user_itemID" jdbcType="INTEGER" property="itemid" />
+    <id column="user_itemCode" jdbcType="CHAR" property="itemcode" />
+    <result column="ORG_CODE" jdbcType="CHAR" property="orgCode" />
+    <result column="USERNAME" jdbcType="VARCHAR" property="username" />
+    <collection property="natmehaRegisterRefDTOList"   ofType="com.gyt.gytApi.domain.NatmehaRegisterRefDTO">
+        <id column="regref_itemID" jdbcType="INTEGER" property="itemid" />
+        <id column="regref_itemCode" jdbcType="CHAR" property="itemcode" />
+        <result column="REGISTER_NUM" jdbcType="INTEGER" property="registerNum" />
+        <result column="SOURCE_CODE" jdbcType="CHAR" property="sourceCode" />
+        <result column="regref_USER_CODE" jdbcType="CHAR" property="userCode" />
+        <result column="PATIENT_CODE" jdbcType="CHAR" property="patientCode" />
+        <result column="REGISTER_STATUS" jdbcType="VARCHAR" property="registerStatus" />
+        <result column="ANONYMOUS" jdbcType="BOOLEAN" property="anonymous" />
+        <result column="OVERALL_SOURCE" jdbcType="DOUBLE" property="overallSource" />
+        <result column="EFFECT_SOURCE" jdbcType="DOUBLE" property="effectSource" />
+        <result column="ENVIRONMENT_SOURCE" jdbcType="DOUBLE" property="environmentSource" />
+        <result column="SERVICE_SOURCE" jdbcType="DOUBLE" property="serviceSource" />
+        <result column="ILLNESS" jdbcType="VARCHAR" property="illness" />
+        <result column="SOURCE" jdbcType="DOUBLE" property="source" />
+        <result column=" regref.CREATER" jdbcType="VARCHAR" property="creater" />
+        <result column="regref_itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+        <result column="regref.UPDATER" jdbcType="VARCHAR" property="updater" />
+        <result column="regref_itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+        <!--就诊人-->
+        <association property="natmehaPatientDTO" javaType="com.gyt.gytApi.domain.NatmehaPatientDTO">
+            <id column="tnp_itemID" jdbcType="INTEGER" property="itemid" />
+            <id column="tnp_itemCode" jdbcType="CHAR" property="itemcode" />
+            <result column="PATIENT_NAME" jdbcType="VARCHAR" property="patientName" />
+            <result column="tnp_GENDER" jdbcType="VARCHAR" property="gender" />
+            <result column="tnp_IDCARD_TYPE" jdbcType="VARCHAR" property="idcardType" />
+            <result column="tnp_IDCARD_NO" jdbcType="VARCHAR" property="idcardNo" />
+            <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+            <result column="RELATIONSHIP" jdbcType="VARCHAR" property="relationship" />
+            <result column="DEFAULT_PATIENT" jdbcType="VARCHAR" property="defaultPatient" />
+            <result column="ADRESS_PRO" jdbcType="VARCHAR" property="adressPro" />
+            <result column="ADRESS_CITY" jdbcType="VARCHAR" property="adressCity" />
+            <result column="ADRESS_COUNTRY" jdbcType="VARCHAR" property="adressCountry" />
+            <result column="ADRESS" jdbcType="VARCHAR" property="adress" />
+            <result column="MARITAL_STATUS" jdbcType="VARCHAR" property="maritalStatus" />
+            <result column="tnp.USER_CODE" jdbcType="CHAR" property="userCode" />
+            <result column="tnp.CREATER" jdbcType="VARCHAR" property="creater" />
+            <result column="tnp.itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+            <result column="tnp.UPDATER" jdbcType="VARCHAR" property="updater" />
+            <result column="tnp.itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+            <result column="BIRTHDATE" jdbcType="DATE" property="birthdate" />
+            <association property="natmehaMedRecordsDTO" >
+                <id column="itemID" jdbcType="INTEGER" property="itemid" />
+                <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+                <result column="itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+                <result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+                <result column="itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+                <result column="OUTPAT_FORM_NO" jdbcType="VARCHAR" property="outpatFormNo" />
+                <result column="IDCARD_NO" jdbcType="VARCHAR" property="idcardNo" />
+                <result column="VISIT_ORG_NAME" jdbcType="VARCHAR" property="visitOrgName" />
+                <result column="VISIT_DTIME" jdbcType="TIMESTAMP" property="visitDtime" />
+                <result column="HEALTH_PROBLEM_EVAL" jdbcType="VARCHAR" property="healthProblemEval" />
+                <result column="RESP_DOCTOR_NAME" jdbcType="VARCHAR" property="respDoctorName" />
+                <result column="OUTPAT_DIAG_NAME" jdbcType="VARCHAR" property="outpatDiagName" />
+                <result column="DIAG_DATE" jdbcType="TIMESTAMP" property="diagDate" />
+                <result column="IN_DEPT_NAME" jdbcType="VARCHAR" property="inDeptName" />
+                <result column="IN_DTIME" jdbcType="TIMESTAMP" property="inDtime" />
+                <result column="OUT_DTIME" jdbcType="TIMESTAMP" property="outDtime" />
+                <result column="IN_REASON_CODE" jdbcType="VARCHAR" property="inReasonCode" />
+                <result column="IN_BED" jdbcType="VARCHAR" property="inBed" />
+                <result column="OUT_DEPT_NAME" jdbcType="VARCHAR" property="outDeptName" />
+                <result column="OTHER_MEDICAL_TREATMENT" jdbcType="VARCHAR" property="otherMedicalTreatment" />
+                <result column="VISIT_DEPT_NAME" jdbcType="VARCHAR" property="visitDeptName" />
+                    <association property="natmehaMedCostDTO" >
+                        <id column="itemID" jdbcType="INTEGER" property="itemid" />
+                        <result column="OUTPAT_FORM_NO" jdbcType="VARCHAR" property="outpatFormNo" />
+                        <result column="VISIT_ORG_NAME" jdbcType="VARCHAR" property="visitOrgName" />
+                        <result column="VISIT_DEPT_NAME" jdbcType="VARCHAR" property="visitDeptName" />
+                        <result column="VISIT_DTIME" jdbcType="DATE" property="visitDtime" />
+                        <result column="SPECIFICATIONS" jdbcType="VARCHAR" property="specifications" />
+                        <result column="PRICE" jdbcType="DOUBLE" property="price" />
+                        <result column="NUM" jdbcType="VARCHAR" property="num" />
+                        <result column="OUTPAT_Self_Payment" jdbcType="DOUBLE" property="outpatSelfPayment" />
+                        <result column="INPAT_Self_Payment" jdbcType="DOUBLE" property="inpatSelfPayment" />
+                        <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+                        <result column="itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+                        <result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+                        <result column="itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+                    </association>
+            </association>
+        </association>
+        <!--号源表-->
+        <association property="natmehaSignalSourceDTO" javaType="com.gyt.gytApi.domain.NatmehaSignalSourceDTO">
+            <id column="tnss_itemID" jdbcType="INTEGER" property="itemid" />
+            <id column="tnss_itemCode" jdbcType="CHAR" property="itemcode" />
+            <result column="DOCTOR_CODE" jdbcType="CHAR" property="doctorCode" />
+            <result column="REGISTER_TYPE" jdbcType="VARCHAR" property="registerType" />
+            <result column="REGISTER_DATE" jdbcType="TIMESTAMP" property="registerDate" />
+            <result column="REGISTER_COUNT" jdbcType="INTEGER" property="registerCount" />
+            <result column="STATUS" jdbcType="VARCHAR" property="status" />
+            <result column="tnss.USER_CODE" jdbcType="CHAR" property="userCode" />
+            <result column="tnss.CREATER" jdbcType="VARCHAR" property="creater" />
+            <result column="tnss.itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+            <result column="tnss.UPDATER" jdbcType="VARCHAR" property="updater" />
+            <result column="tnss.itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+            <!--医生表-->
+            <association property="natmehaDoctorDTO" >
+                <id column="tnd_itemID" jdbcType="INTEGER" property="itemid" />
+                <id column="tnd_itemCode" jdbcType="CHAR" property="itemcode" />
+                <result column="DOCTOR_NAME" jdbcType="VARCHAR" property="doctorName" />
+                <result column="DOCTOR_TITLE" jdbcType="VARCHAR" property="doctorTitle" />
+                <result column="DOCTOR_TREATMENT" jdbcType="VARCHAR" property="doctorTreatment" />
+                <result column="DOCTOR_SORCE" jdbcType="DOUBLE" property="doctorSorce" />
+                <result column="DEPT_CODE" jdbcType="VARCHAR" property="deptCode" />
+                <result column="NUM_TYPE" jdbcType="VARCHAR" property="numType" />
+                <result column="tnd.USER_CODE" jdbcType="CHAR" property="userCode" />
+                <result column="tnd.CREATER" jdbcType="VARCHAR" property="creater" />
+                <result column="tnd.itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+                <result column="tnd.UPDATER" jdbcType="VARCHAR" property="updater" />
+                <result column="tnd.itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+                <result column="tnd_ORG_CODE" jdbcType="CHAR" property="orgCode" />
+                <!--医生所属机构-->
+                <association property="natmehaHospitalDTO">
+                    <result column="HOSPITAL_NAME" jdbcType="VARCHAR" property="hospitalName" />
+                    <result column="h_itemcode" jdbcType="VARCHAR" property="itemcode" />
+                </association>
+            </association>
+        </association>
+    </collection>
+</resultMap>
+    <select id="selectCostList" resultMap="costDetail">
+        select    user.itemID user_itemID, user.itemCode user_itemCode, user.ORG_CODE, user.USERNAME,
+
+                  regref.itemID regref_itemID, regref.itemCode regref_itemCode, REGISTER_NUM, SOURCE_CODE, regref.USER_CODE regref_USER_CODE, PATIENT_CODE, REGISTER_STATUS,
+                  ANONYMOUS, OVERALL_SOURCE, EFFECT_SOURCE, ENVIRONMENT_SOURCE, SERVICE_SOURCE, ILLNESS,
+                  `SOURCE`, regref.CREATER, regref.itemCreateAt regref_itemCreateAt, regref.UPDATER, regref.itemUpdateAt regref_itemUpdateAt,
+
+                  tnp.itemID  tnp_itemID, tnp.itemCode tnp_itemCode, PATIENT_NAME, tnp.GENDER tnp_GENDER, tnp.IDCARD_TYPE tnp_IDCARD_TYPE,
+                  tnp.IDCARD_NO   tnp_IDCARD_NO, PHONE, RELATIONSHIP,
+                  DEFAULT_PATIENT, ADRESS_PRO, ADRESS_CITY, ADRESS_COUNTRY, ADRESS, MARITAL_STATUS,
+                  tnp.USER_CODE, tnp.CREATER, tnp.itemCreateAt, tnp.UPDATER, tnp.itemUpdateAt, BIRTHDATE,
+
+                  tnss.itemID  tnss_itemID, tnss.itemCode tnss_itemCode, DOCTOR_CODE, REGISTER_TYPE, REGISTER_DATE, REGISTER_COUNT, tnss.STATUS,
+                  tnss.USER_CODE,  tnss.CREATER,  tnss.itemCreateAt,  tnss.UPDATER,  tnss.itemUpdateAt,
+
+                  tnd.itemID tnd_itemID, tnd.itemCode tnd_itemCode, DOCTOR_NAME, DOCTOR_TITLE, DOCTOR_TREATMENT, DOCTOR_SORCE, DEPT_CODE,
+                  NUM_TYPE, tnd.USER_CODE, tnd.CREATER, tnd.itemCreateAt, tnd.UPDATER, tnd.itemUpdateAt, tnd.ORG_CODE tnd_ORG_CODE,
+
+                  HOSPITAL_NAME,h.itemCode h_itemcode,
+
+                  tnmc.itemID, tnmc.OUTPAT_FORM_NO, tnmc.VISIT_ORG_NAME, tnmc.VISIT_DEPT_NAME, tnmc.VISIT_DTIME, SPECIFICATIONS,
+                  PRICE, NUM, OUTPAT_Self_Payment, INPAT_Self_Payment, tnmc.CREATER, tnmc.itemCreateAt, tnmc.UPDATER,
+                  tnmc.itemUpdateAt,
+
+                    tnmr.itemID,  tnmr.CREATER,  tnmr.itemCreateAt,  tnmr.UPDATER,  tnmr.itemUpdateAt,  tnmr.OUTPAT_FORM_NO,  tnmr.IDCARD_NO,
+                  tnmr.VISIT_ORG_NAME,  tnmr.VISIT_DTIME, HEALTH_PROBLEM_EVAL, RESP_DOCTOR_NAME, OUTPAT_DIAG_NAME,
+                  DIAG_DATE, IN_DEPT_NAME, IN_DTIME, OUT_DTIME, IN_REASON_CODE, IN_BED, OUT_DEPT_NAME,
+                  OTHER_MEDICAL_TREATMENT,  tnmr.VISIT_DEPT_NAME
+        from user left join tb_natmeha_register_ref regref on  regref.USER_CODE=user.itemCode
+                  left join tb_natmeha_patient tnp on tnp.itemCode=regref.PATIENT_CODE
+                  left join tb_natmeha_signal_source tnss on regref.SOURCE_CODE=tnss.itemCode
+                  left join tb_natmeha_doctor tnd on tnss.DOCTOR_CODE=tnd.itemCode
+                  left join natmeha.tb_natmeha_hospital h  on h.itemCode = tnd.ORG_CODE
+                  left join tb_natmeha_med_records tnmr on tnp.IDCARD_NO = tnmr.IDCARD_NO
+                  left join tb_natmeha_med_cost tnmc on tnmr.OUTPAT_FORM_NO = tnmc.OUTPAT_FORM_NO
+        where user.itemCode=#{itemcode} and user.itemid=#{itemid} and regref.REGISTER_STATUS='已就诊'
+    </select>
+    <delete id="deletePatienOfReg">
+        delete from natmeha.tb_natmeha_register_ref where USER_CODE=#{usercode} and PATIENT_CODE=#{patiencode}
+    </delete>
+
+  <!--登录-->
+  <select id="selectForLogin" parameterType="com.gyt.gytApi.domain.UserDTO" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from user
+    where USERNAME = #{username,jdbcType=INTEGER}
+    and `PASSWORD` = #{password,jdbcType=CHAR}
+  </select>
+
+
+  <!--查询我的收藏-->
+  <resultMap id="MyHotspot" type="com.gyt.gytApi.domain.UserDTO">
+    <id column="user_itemID" jdbcType="INTEGER" property="itemid" />
+    <id column="user_itemCode" jdbcType="CHAR" property="itemcode" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <collection property="natmehaHotsCollRefDTOList" ofType="com.gyt.gytApi.domain.NatmehaHotsCollRefDTO">
+      <id column="itemID" jdbcType="INTEGER" property="itemId" />
+      <id column="itemCode" jdbcType="CHAR" property="itemCode" />
+      <result column="HOTSPOT_CODE" jdbcType="CHAR" property="hotspotCode" />
+      <result column="USER_CODE" jdbcType="CHAR" property="userCode" />
+      <association property="natmehaHotspotDTO" >
+        <id column="itemID" jdbcType="INTEGER" property="itemId" />
+        <id column="itemCode" jdbcType="CHAR" property="itemCode" />
+        <result column="itemCreateAt" property="itemcreateat"/>
+        <result column="HOTSPOT_TITLE" jdbcType="VARCHAR" property="hotspotTitle" />
+        <result column="HOTSPOT_CONTENT" jdbcType="VARCHAR" property="hotspotContent" />
+        <association property="natmehaFileDTO">
+          <result column="DATA_CODE" jdbcType="CHAR" property="dataCode" />
+          <result column="FILE_PATH" jdbcType="VARCHAR" property="filePath" />
+        </association>
+      </association>
+    </collection>
+  </resultMap>
+  <select id="selectMyCollHotspotList" resultMap="MyHotspot">
+    select  user.itemCode user_itemcode,user.itemID user_itemid,user.USERNAME,
+
+            tnhcr.itemID,tnhcr.itemCode,tnhcr.HOTSPOT_CODE,tnhcr.USER_CODE,
+
+            tnh.itemCode,tnh.itemID,tnh.HOTSPOT_TITLE,tnh.HOTSPOT_CONTENT,tnh.itemCreateAt,
+
+            tnf.DATA_CODE,tnf.FILE_PATH
+    from user left join tb_natmeha_hots_coll_ref tnhcr on user.itemCode=tnhcr.USER_CODE
+              left join tb_natmeha_hotspot tnh on tnh.itemCode=tnhcr.HOTSPOT_CODE
+              left join tb_natmeha_file tnf on tnh.itemCode=tnf.DATA_CODE
+    where user.itemcode=#{itemcode} and user.itemid=#{itemid}
+  </select>
+</mapper>

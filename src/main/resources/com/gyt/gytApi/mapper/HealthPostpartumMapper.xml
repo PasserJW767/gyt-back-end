@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyt.gytApi.mapper.HealthPostpartumMapper">
+
+    <resultMap id="BaseHealthPostpartum" type="com.gyt.gytApi.domain.HealthPostpartumDTO">
+        <id property="itemId" column="itemID" jdbcType="INTEGER"/>
+        <id property="patientId" column="patient_id" jdbcType="VARCHAR"/>
+        <result property="healthConditionDescr" column="health_condition_descr" jdbcType="VARCHAR"/>
+        <result property="psychologyConditionDescr" column="psychology_condition_descr" jdbcType="VARCHAR"/>
+        <result property="woundHealing" column="wound_healing" jdbcType="VARCHAR"/>
+        <result property="puerperaHealthEvalDescr" column="puerpera_health_eval_descr" jdbcType="VARCHAR"/>
+        <result property="visitDoctorName" column="visit_doctor_name" jdbcType="VARCHAR"/>
+        <result property="pregHealthGuide" column="preg_health_guide" jdbcType="VARCHAR"/>
+        <result property="notes" column="notes" jdbcType="VARCHAR"/>
+        <result property="creater" column="creater" jdbcType="VARCHAR"/>
+        <result property="itemCreateAt" column="itemCreateAt" jdbcType="TIMESTAMP"/>
+        <result property="updater" column="updater" jdbcType="VARCHAR"/>
+        <result property="itemUpdateAt" column="itemUpdateAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        itemID,
+        patient_id,
+        health_condition_descr,
+        psychology_condition_descr,
+        wound_healing,
+        puerpera_health_eval_descr,
+        visit_doctor_name,
+        preg_health_guide,
+        notes,
+        creater,
+        itemCreateAt,
+        updater,
+        itemUpdateAt
+    </sql>
+
+    <select id="selectHealthPostpartum" resultMap="BaseHealthPostpartum">
+        select <include refid="Base_Column_List"/>
+        from tb_natmeha_health_postpartum
+        <where>
+            itemId=#{id}
+        </where>
+    </select>
+</mapper>

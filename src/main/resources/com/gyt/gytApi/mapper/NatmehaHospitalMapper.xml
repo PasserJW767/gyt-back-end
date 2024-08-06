@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyt.gytApi.mapper.NatmehaHospitalMapper">
+
+    <resultMap id="BaseResultMap" type="com.gyt.gytApi.domain.NatmehaHospitalDTO">
+        <id property="itemid" column="itemID" jdbcType="INTEGER"/>
+        <id property="itemcode" column="itemCode" jdbcType="CHAR"/>
+        <result property="hospitalName" column="HOSPITAL_NAME" jdbcType="VARCHAR"/>
+        <result property="hospitalLevel" column="HOSPITAL_LEVEL" jdbcType="VARCHAR"/>
+        <result property="hospitalBooking" column="HOSPITAL_BOOKING" jdbcType="INTEGER"/>
+        <result property="hospitalSource" column="HOSPITAL_SOURCE" jdbcType="DOUBLE"/>
+        <result property="hospitalDistance" column="HOSPITAL_DISTANCE" jdbcType="INTEGER"/>
+        <result property="hospitalPhone" column="HOSPITAL_PHONE" jdbcType="VARCHAR"/>
+        <result property="hospitalPro" column="HOSPITAL_PRO" jdbcType="VARCHAR"/>
+        <result property="hospitalCity" column="HOSPITAL_CITY" jdbcType="VARCHAR"/>
+        <result property="hospitalCountry" column="HOSPITAL_COUNTRY" jdbcType="VARCHAR"/>
+        <result property="hospitalAdress" column="HOSPITAL_ADRESS" jdbcType="VARCHAR"/>
+        <result property="introduce" column="INTRODUCE" jdbcType="OTHER"/>
+        <result property="status" column="STATUS" jdbcType="VARCHAR"/>
+        <result property="creater" column="CREATER" jdbcType="VARCHAR"/>
+        <result property="itemcreateat" column="itemCreateAt" jdbcType="TIMESTAMP"/>
+        <result property="updater" column="UPDATER" jdbcType="VARCHAR"/>
+        <result property="itemupdateat" column="itemUpdateAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.gyt.gytApi.domain.NatmehaHospitalDTO">
+        <result column="INTRODUCE" jdbcType="BLOB" property="introduce" />
+    </resultMap>
+    <!--智能导诊关联图片映射-->
+    <resultMap extends="ResultMapWithBLOBs" id="NearByHospitalToTreatResultMap" type="com.gyt.gytApi.domain.NatmehaHospitalDTO" >
+        <association property="natmehaFileDTO" javaType="com.gyt.gytApi.domain.NatmehaFileDTO" >
+            <id column="itemID" jdbcType="INTEGER" property="itemid" />
+            <id column="itemCode" jdbcType="CHAR" property="itemcode" />
+            <result column="DATA_CODE" jdbcType="CHAR" property="dataCode" />
+            <result column="UPLOADER" jdbcType="VARCHAR" property="uploader" />
+            <result column="UPLOADER_CODE" jdbcType="CHAR" property="uploaderCode" />
+            <result column="FILE_NAME" jdbcType="VARCHAR" property="fileName" />
+            <result column="FILE_TYPE" jdbcType="VARCHAR" property="fileType" />
+            <result column="FILE_SIZE" jdbcType="DOUBLE" property="fileSize" />
+            <result column="FILE_PATH" jdbcType="VARCHAR" property="filePath" />
+            <result column="itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+        </association>
+    </resultMap>
+    <!--智能导诊：附近医院-->
+    <select id="selectNearByHospitalToTreat" parameterType="string" resultMap="NearByHospitalToTreatResultMap">
+        select  h.itemID,
+        h.itemCode,
+        h.HOSPITAL_NAME,
+        h.HOSPITAL_BOOKING,
+        h.HOSPITAL_SOURCE,
+        h.HOSPITAL_DISTANCE,
+        h.HOSPITAL_PRO,
+        h.HOSPITAL_CITY,
+        h.HOSPITAL_COUNTRY,
+        h.HOSPITAL_ADRESS,
+        f.itemID,
+        f.itemCode,
+        f.FILE_PATH
+        from tb_natmeha_hospital  h
+        left join tb_natmeha_file f
+        on h.itemCode=f.DATA_CODE
+        where h.STATUS = '1'
+        <if test="hospitalCity !=null and hospitalCity.trim().length()>0">
+            and  h.HOSPITAL_CITY=#{hospitalCity}
+        </if>
+        <if test="hospitalPro !=null and hospitalPro.trim().length()>0">
+            and h.HOSPITAL_PRO=#{hospitalPro}
+        </if>
+        order by HOSPITAL_SOURCE desc
+        limit 3
+    </select>
+    <sql id="Base_Column_List">
+        itemID,itemCode,HOSPITAL_NAME,
+        HOSPITAL_LEVEL,HOSPITAL_BOOKING,HOSPITAL_SOURCE,
+        HOSPITAL_DISTANCE,HOSPITAL_PHONE,HOSPITAL_PRO,
+        HOSPITAL_CITY,HOSPITAL_COUNTRY,HOSPITAL_ADRESS,
+        INTRODUCE,STATUS,CREATER,itemCreateAt,
+        UPDATER,itemUpdateAt,INTRODUCE
+    </sql>
+
+    <!--医院详情相关的结果集-->
+    <resultMap id="hospitalInfoResultMap" type="com.gyt.gytApi.domain.NatmehaHospitalDTO" extends="BaseResultMap">
+        <association property="natmehaFileDTO" javaType="com.gyt.gytApi.domain.NatmehaFileDTO">
+            <id property="itemid" column="itemID" jdbcType="INTEGER"/>
+            <id property="itemcode" column="itemCode" jdbcType="CHAR"/>
+            <result property="dataCode" column="DATA_CODE" jdbcType="CHAR"/>
+            <result property="uploader" column="UPLOADER" jdbcType="VARCHAR"/>
+            <result property="uploaderCode" column="UPLOADER_CODE" jdbcType="CHAR"/>
+            <result property="fileName" column="FILE_NAME" jdbcType="VARCHAR"/>
+            <result property="fileType" column="FILE_TYPE" jdbcType="VARCHAR"/>
+            <result property="fileSize" column="FILE_SIZE" jdbcType="DOUBLE"/>
+            <result property="filePath" column="FILE_PATH" jdbcType="VARCHAR"/>
+            <result property="itemcreateat" column="itemCreateAt" jdbcType="TIMESTAMP"/>
+        </association>
+    </resultMap>
+
+    <!--医院开展项目、功效特色记录结果集-->
+    <resultMap id="hospitalLaunchProjectsResultMap" type="com.gyt.gytApi.domain.NatmehaHospitalDTO" extends="BaseResultMap">
+        <association property="natmehaProjectDTO" javaType="com.gyt.gytApi.domain.NatmehaProjectDTO">
+            <id property="itemid" column="itemID" jdbcType="INTEGER"/>
+            <id property="itemcode" column="itemCode" jdbcType="CHAR"/>
+            <result property="name" column="NAME" jdbcType="VARCHAR"/>
+            <result property="content" column="CONTENT" jdbcType="VARCHAR"/>
+            <result property="dataType" column="DATA_TYPE" jdbcType="VARCHAR"/>
+            <result property="price" column="PRICE" jdbcType="INTEGER"/>
+            <result property="dataStatus" column="DATA_STATUS" jdbcType="VARCHAR"/>
+            <result property="userCode" column="USER_CODE" jdbcType="CHAR"/>
+            <result property="visitNum" column="VISIT_NUM" jdbcType="INTEGER"/>
+            <result property="creater" column="CREATER" jdbcType="VARCHAR"/>
+            <result property="itemcreateat" column="itemCreateAt" jdbcType="TIMESTAMP"/>
+            <result property="updater" column="UPDATER" jdbcType="VARCHAR"/>
+            <result property="itemupdateat" column="itemUpdateAt" jdbcType="TIMESTAMP"/>
+            <result property="projectSorce" column="PROJECT_SORCE" jdbcType="DOUBLE"/>
+        </association>
+    </resultMap>
+
+    <!--/natmehaHospital/getTheFirstTwoHos,拿到评分最高的两个医院的信息-->
+    <select id="getTheFirstTwoHos" resultMap="hospitalInfoResultMap">
+        select h.itemID,
+            h.itemCode,
+            h.HOSPITAL_NAME,
+            h.HOSPITAL_LEVEL,
+            h.HOSPITAL_BOOKING,
+            h.HOSPITAL_SOURCE,
+            h.HOSPITAL_DISTANCE,
+            h.HOSPITAL_PHONE,
+            h.HOSPITAL_PRO,
+            h.HOSPITAL_CITY,
+            h.HOSPITAL_COUNTRY,
+            h.HOSPITAL_ADRESS,
+            h.INTRODUCE,
+            h.STATUS,
+            h.CREATER,
+            h.itemCreateAt,
+            h.UPDATER,
+            h.itemUpdateAt,
+            h.INTRODUCE,
+            f.itemID,
+            f.itemCode,
+            f.DATA_CODE,
+            f.UPLOADER,
+            f.UPLOADER_CODE,
+            f.FILE_NAME,
+            f.FILE_TYPE,
+            f.FILE_SIZE,
+            f.FILE_PATH,
+            f.itemCreateAt
+        from tb_natmeha_hospital h left join tb_natmeha_file f
+        on h.itemCode=f.DATA_CODE
+        order by h.HOSPITAL_SOURCE  DESC
+        LIMIT 2
+    </select>
+
+    <!--/natmehaHospital/getHosDetailIndexInfoByHosItemCode,// 根据国医堂itemCode查询此医院详情（相关电话、地址等信息）-->
+    <select id="getHosDetailIndexInfoByHosItemCode" resultMap="hospitalInfoResultMap" parameterType="string">
+        select h.itemID,
+            h.itemCode,
+            h.HOSPITAL_NAME,
+            h.HOSPITAL_LEVEL,
+            h.HOSPITAL_BOOKING,
+            h.HOSPITAL_SOURCE,
+            h.HOSPITAL_DISTANCE,
+            h.HOSPITAL_PHONE,
+            h.HOSPITAL_PRO,
+            h.HOSPITAL_CITY,
+            h.HOSPITAL_COUNTRY,
+            h.HOSPITAL_ADRESS,
+            h.INTRODUCE,
+            h.STATUS,
+            h.CREATER,
+            h.itemCreateAt,
+            h.UPDATER,
+            h.itemUpdateAt,
+            h.INTRODUCE,
+            f.itemID,
+            f.itemCode,
+            f.DATA_CODE,
+            f.UPLOADER,
+            f.UPLOADER_CODE,
+            f.FILE_NAME,
+            f.FILE_TYPE,
+            f.FILE_SIZE,
+            f.FILE_PATH,
+            f.itemCreateAt
+        from tb_natmeha_hospital h left join tb_natmeha_file f
+        on h.itemCode=f.DATA_CODE
+        where h.itemCode=#{itemCode}
+    </select>
+
+    <select id="getHospitalListCount" resultType="int">
+        select count(*)
+        from tb_natmeha_hospital
+        where HOSPITAL_NAME like concat('%',#{keyword},'%')
+        ORDER BY itemId ASC
+    </select>
+
+    <select id="getHospitalListByPageSize" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" />
+        from tb_natmeha_hospital
+        where HOSPITAL_NAME like concat('%',#{keyword},'%')
+        ORDER BY itemID ASC
+    </select>
+</mapper>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyt.gytApi.mapper.TKQuestionMapper">
+
+  <resultMap id="BaseResultMap" type="com.gyt.gytApi.domain.TKQuestionDTO">
+    <id column="q_id" jdbcType="CHAR" property="qId" />
+    <result column="type_id" jdbcType="CHAR" property="typeId" />
+    <result column="q_number" jdbcType="VARCHAR" property="qNumber" />
+    <result column="q_text" jdbcType="VARCHAR" property="qText" />
+    <result column="options_text" jdbcType="VARCHAR" property="optionsText" />
+    <result column="options_value" jdbcType="VARCHAR" property="optionsValue" />
+    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+    <result column="fea_id" jdbcType="VARCHAR" property="feaId" />
+    <result column="q_sex" jdbcType="CHAR" property="qSex" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    q_id, type_id, q_number, q_text, options_text, options_value, del_flag, fea_id, q_sex
+  </sql>
+  <select id="select"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_knowledge_tcm_question
+
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_knowledge_tcm_question
+    where q_id = #{qId,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" keyColumn="q_id" keyProperty="qId" parameterType="com.gyt.gytApi.domain.TKQuestionDTO" useGeneratedKeys="true">
+    insert into t_knowledge_tcm_question (type_id, q_number, q_text, 
+      options_text, options_value, del_flag, 
+      fea_id, q_sex)
+    values (#{typeId,jdbcType=CHAR}, #{qNumber,jdbcType=VARCHAR}, #{qText,jdbcType=VARCHAR}, 
+      #{optionsText,jdbcType=VARCHAR}, #{optionsValue,jdbcType=VARCHAR}, #{delFlag,jdbcType=CHAR}, 
+      #{feaId,jdbcType=VARCHAR}, #{qSex,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="q_id" keyProperty="qId" parameterType="com.gyt.gytApi.domain.TKQuestionDTO" useGeneratedKeys="true">
+    insert into t_knowledge_tcm_question
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="typeId != null">
+        type_id,
+      </if>
+      <if test="qNumber != null">
+        q_number,
+      </if>
+      <if test="qText != null">
+        q_text,
+      </if>
+      <if test="optionsText != null">
+        options_text,
+      </if>
+      <if test="optionsValue != null">
+        options_value,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="feaId != null">
+        fea_id,
+      </if>
+      <if test="qSex != null">
+        q_sex,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="typeId != null">
+        #{typeId,jdbcType=CHAR},
+      </if>
+      <if test="qNumber != null">
+        #{qNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="qText != null">
+        #{qText,jdbcType=VARCHAR},
+      </if>
+      <if test="optionsText != null">
+        #{optionsText,jdbcType=VARCHAR},
+      </if>
+      <if test="optionsValue != null">
+        #{optionsValue,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="feaId != null">
+        #{feaId,jdbcType=VARCHAR},
+      </if>
+      <if test="qSex != null">
+        #{qSex,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gyt.gytApi.domain.TKQuestionDTO">
+    update t_knowledge_tcm_question
+    <set>
+      <if test="typeId != null">
+        type_id = #{typeId,jdbcType=CHAR},
+      </if>
+      <if test="qNumber != null">
+        q_number = #{qNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="qText != null">
+        q_text = #{qText,jdbcType=VARCHAR},
+      </if>
+      <if test="optionsText != null">
+        options_text = #{optionsText,jdbcType=VARCHAR},
+      </if>
+      <if test="optionsValue != null">
+        options_value = #{optionsValue,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="feaId != null">
+        fea_id = #{feaId,jdbcType=VARCHAR},
+      </if>
+      <if test="qSex != null">
+        q_sex = #{qSex,jdbcType=CHAR},
+      </if>
+    </set>
+    where q_id = #{qId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gyt.gytApi.domain.TKQuestionDTO">
+    update t_knowledge_tcm_question
+    set type_id = #{typeId,jdbcType=CHAR},
+      q_number = #{qNumber,jdbcType=VARCHAR},
+      q_text = #{qText,jdbcType=VARCHAR},
+      options_text = #{optionsText,jdbcType=VARCHAR},
+      options_value = #{optionsValue,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=CHAR},
+      fea_id = #{feaId,jdbcType=VARCHAR},
+      q_sex = #{qSex,jdbcType=CHAR}
+    where q_id = #{qId,jdbcType=CHAR}
+  </update>
+</mapper>
